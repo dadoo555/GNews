@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= dadosNoticia.title %></title>
+    <link rel="stylesheet" href="/css/news.css" type="text/css">
+    <link rel="stylesheet" href="/css/navbar.css" type="text/css">
+    <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <%- include('include/navbar'); %>
+
+    <!-- Content -->
+    <div class="grid">
+        <div class="title"><h1><b><%= dadosNoticia.title %></b></h1></div>
+        <div class="subtitle"><h2><%= dadosNoticia.subtitle %></h2></div>
+        <div class="info">
+            <p><b>Por <%= dadosNoticia.author_name %></b></p>
+            <p>- <%= dadosNoticia.locality %></p>
+        </div>
+        
+    </div>
+    <hr style="margin-bottom: 30px; width: 60%;">
+
+
+    <div class="content">
+        <div class="picture-card">
+            <!-- <div class="inner-picture-card"> -->
+                <img src="/<%= dadosNoticia.path %>" alt="">
+                <div class="container-text-image">
+                    <p class="text-image"><%= dadosNoticia.description %></p>
+                </div>
+                
+            <!-- </div> -->
+        </div>
+        <div class="news-text" >
+            <p><%= dadosNoticia.text %></p>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+</html>

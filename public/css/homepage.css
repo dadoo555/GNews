@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    font-family: "Lato", sans-serif;
+  } 
+  
+.structure {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 75px;
+  align-items: center;
+  }
+
+.containerNews {
+  z-index: 0;
+  display: grid;
+  justify-content: center;    
+  grid-template-columns: minmax(auto,600px) minmax(auto,600px);
+  grid-template-rows: repeat(4, 170px);
+  gap: 15px;
+  margin: 0 15px 0 15px;
+  width: calc(100% - 100px);
+}
+
+.bigCard {
+  grid-row: span 2;
+  width: 100%;
+}
+
+.bigCard > .card-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  
+}
+
+.bigCard .card-title-container {
+  display: flex;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  flex-direction: column;
+ 
+  border-radius: 15px;
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7410423642113095) 100%);
+}
+
+.bigCard > .card-container > a > img {
+  min-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  
+}
+
+.bigCard .title {
+  font-size: 1.3rem;
+  text-shadow: 2px 2px 3px black;
+  margin-bottom: 5px;
+  padding-left: 20px;
+}
+
+.bigCard .subtitle {
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px black;
+  padding: 0 0 10px 20px;
+  margin-bottom: 15px;
+}
+
+.bigCard a {
+  color: white;
+  text-decoration: none;  
+  margin: 0;
+}
+
+
+.normalCard {
+  width: 100%;
+}
+.normalCard > .card-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.normalCard .card-title-container {
+  display: flex;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  flex-direction: column;
+  padding: 15px 5px 5px 15px;  
+}
+
+.normalCard > .card-container > a > img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.normalCard .title {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+
+.normalCard .subtitle {
+  font-size: 1.1rem;
+}
+
+.normalCard a {
+  color: rgb(141, 0, 0);
+  text-decoration: none;  
+  margin: 0;
+}
+
+.normalCard a:hover {
+  color: rgb(160, 44, 44); 
+}
+
+
+@media(max-width: 1200px) {
+
+  .containerNews {
+      grid-template-rows: repeat(10, 170px);
+      grid-template-columns: 100%; 
+  }
+
+  
+}

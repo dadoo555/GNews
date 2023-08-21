@@ -1,0 +1,107 @@
+#navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 40px;
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    font-size: 0.8rem;
+    margin: 0 0 0 0;
+    align-items: center;
+}
+
+.left p {
+    margin: 0 0 0 15px;
+}
+
+.right {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+    margin: 0 20px 0 0;
+}
+
+.username {
+    margin-left: 10px;
+}
+
+#menu_left {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 40px;
+    height: 100%;
+    width: 200px;
+    background-color: rgb(45, 45, 45);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.item_menu {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 190px;
+    height: 40px;
+    color: rgb(213, 213, 213);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    padding-left: 10px;
+    transition: 0.3s;
+}
+
+.item_menu:hover {
+    background-color: rgb(77,77,77);
+}
+
+
+
+p {
+    margin: 0;
+
+}
+a {
+    margin: 0;
+    text-decoration: none;
+    /* display: block; */
+}
+
+.btnClose {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 3rem;
+}
+
+.btnOpen {
+    text-decoration-color: none;
+    color: white;
+    margin-left: 10px;
+    padding: 2px 5px 2px 5px;
+    font-size: 1.2rem;
+}
+
+.btnOpen:hover {
+    color: silver;
+}
+
+.p_btnClose {
+    font-size: 30px;
+    color: white;
+}
+
+.item_menu_btnClose:hover .p_btnClose {
+    color: silver;
+}

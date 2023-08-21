@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G News | Administration</title>
+    <link rel="stylesheet" href="/css/overview.css" type="text/css">
+    <link rel="stylesheet" href="/css/navigation_admin.css" type="text/css">
+    <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
+</head>
+<body>
+    
+    
+    <!-- Navbar and sidenav -->
+    <%- include('include/navigation_admin') %>
+
+    <!-- Alert delete -->
+    <div id="alertDelete">
+        <p>Confirm Delete?</p>
+        <a href="#" onclick="removeNews()">Yes</a>
+        <a href="#" onclick="dontDelete()">Cancel</a>
+    </div>
+
+    <!-- Reorder -->
+    <a id="btnSave" href="#" onclick="saveOrder()"><b>Save</b></a>
+    <a id="btnReorder" href="#" onclick="layoutReorder()"><b>Reorder items</b></a>
+
+    <!-- GRID News Overview -->
+    <div id="grid_overview">
+        
+        <!-- Item -->
+        <% chavesNoticias.forEach(key => { %>
+            <div id="id-<%= listaNoticias[key].id %>" class="item_grid">
+                <div class="form-box-top-left">
+                    <div class="title-box">
+                        <div class="title">
+                            <p><b><%= listaNoticias[key].title %></b></p>
+                        </div>
+                        <div class="subtitle">
+                            <p><%= listaNoticias[key].subtitle %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-image">
+                    <img src="/<%= listaNoticias[key].path %>" alt="">
+                </div>
+                <div class="form-box-top-right">
+                    <a class="btnHide" href="#" onclick="confirmDelete(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-trash fa-lg" ></i></a>
+                    <a class="btnHide" href="#" onclick="archiveNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-box-archive fa-lg"></i></a>
+                    <a class="btnHide" href="#" onclick="updateNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-pen fa-lg"></i></a>
+                    <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'left')"><i class="fa-solid fa-caret-left fa-lg"></i></a>
+                    <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'right')"><i class="fa-solid fa-caret-right fa-lg"></i></a>
+                </div>
+                <div class="form-box-text">
+                    <p><%= listaNoticias[key].text %> [...]</p>
+                </div>
+            </div>
+        <% }) %>
+        <!-- End Item -->
+
+    </div>
+
+</body>
+
+<script src="https://kit.fontawesome.com/51f2407d07.js" crossorigin="anonymous"></script>
+<script>
+    let deactivateButtons = false
+
+    let id_newsToDelete
+    function confirmDelete(id){
+        
+        if (deactivateButtons == true){return}
+        id_newsToDelete = id
+        console.log(id_newsToDelete)
+        document.getElementById("alertDelete").style.height = '40px'
+    }
+
+    function dontDelete(){
+        document.getElementById("alertDelete").style.height = '0px'
+    }
+    
+    function removeNews(){
+        console.log(id_newsToDelete)
+        //mandar o POST.
+        let requestPromise = fetch(`/administration/overview/${id_newsToDelete}/delete`, {method: 'post'})
+        requestPromise.then((response)=> {
+            
+            if(response.ok){
+                 // Visualmente
+                const cardToRemove = document.getElementById('id-' + id_newsToDelete);
+                const grid = document.getElementById('grid_overview');
+                grid.removeChild(cardToRemove);
+                // alert('Sucesso') 
+                document.getElementById("alertDelete").style.display = 'none';
+            }
+            else{
+                console.log(id_newsToDelete)
+                alert('nao foi possivel excluir')
+            }
+
+            
+        })
+        requestPromise.catch((err) => {
+            console.log("Deu erro fetch remover ", err)
+            alert('Deu errado fetch remover')
+        })
+    } 
+
+    function archivNews(id){
+
+    }
+
+    function updateNews(id){
+
+    }
+
+        let originalOrder = []
+    function layoutReorder(){
+        
+        if (deactivateButtons == false){
+
+            //Button REORDER
+            deactivateButtons = true
+            document.body.style.backgroundColor = 'rgb(78, 104, 113)';
+            document.getElementById('btnReorder').innerHTML = '<b>Cancel</b>'
+            document.getElementById('btnReorder').style.color = 'rgb(130, 0, 0)'
+            document.getElementById('btnSave').style.display = 'block'
+            document.querySelectorAll('.btnHide').forEach((e)=>{
+                e.style.display = 'none'
+            })
+            document.querySelectorAll('.btnMove').forEach((e)=>{
+                e.style.display = 'inline'
+            })
+
+            //store original order
+            let news = document.getElementById('grid_overview').children
+            for (let i=0; i < news.length; i++){
+                originalOrder[i] = news[i].id
+            }
+
+        } else {
+
+            //Button CANCEL
+            deactivateButtons = false
+            document.body.style.backgroundColor = 'lightblue';
+            document.getElementById('btnReorder').innerHTML = '<b>Reorder items</b>'
+            document.getElementById('btnReorder').style.color = 'black'
+            document.getElementById('btnSave').style.display = 'none'
+            document.querySelectorAll('.btnHide').forEach((e)=>{
+                e.style.display = 'inline'
+            })
+            document.querySelectorAll('.btnMove').forEach((e)=>{
+                e.style.display = 'none'
+            })
+
+            //restore original order
+            let me = document.getElementById('grid_overview')
+            let newsCount = Array.from(me.children).length
+            for (let i=0; i < newsCount; i++){
+ 
+                if (i==0){
+                    me.insertBefore(document.getElementById(originalOrder[i]), document.getElementById(me.children[0].id))
+                } else {
+                    insertAfter(document.getElementById(originalOrder[i]), document.getElementById(me.children[i].id))
+                }
+            }
+        }
+    }
+
+    function insertAfter(referenceNode, newNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
+    function move(id, direction){
+
+        if (direction == 'left'){
+            direction = -1
+        } else {
+            direction = 1
+        } 
+
+        let me = document.getElementById(id)
+        let myIndex = Array.from(me.parentNode.children).indexOf(me)
+
+        if ((myIndex + direction == -1) || (myIndex + direction == Array.from(me.parentNode.children).length)){
+            return
+        }
+        let neighborID = me.parentNode.children[myIndex + direction].id
+        let neighbor = document.getElementById(neighborID)
+
+        if (direction ==-1){
+            me.parentElement.insertBefore(me,neighbor)
+        } else {
+            me.parentElement.insertBefore(neighbor, me)
+        }
+    }
+
+    function saveOrder(){
+        //array save
+        let news = document.getElementById('grid_overview')
+        let newsCount = Array.from(news.children).length
+        let database = []
+
+        for (let i = newsCount - 1; i >= 0; i--){
+            database.push(news.children[i].id.slice(3))
+        }
+
+        //Fetch DB
+        let requestPromise = fetch('/administration/overview/saveOrder', 
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({dados: database})
+            })
+            
+        requestPromise.then((response)=>{
+            if (response.ok){
+                //deu
+                return
+
+            } else {
+                //nao deu
+
+            }
+        })
+        requestPromise.catch((err) => {
+            console.log("Deu erro fetch ordem ", err)
+            alert('Deu errado fetch ordem')
+        })
+
+        // Clean . . . . . . . . . . . . 
+        deactivateButtons = false
+        document.body.style.backgroundColor = 'lightblue';
+        document.getElementById('btnReorder').innerHTML = '<b>Reorder items</b>'
+        document.getElementById('btnReorder').style.color = 'black'
+        document.getElementById('btnSave').style.display = 'none'
+        document.querySelectorAll('.btnHide').forEach((e)=>{
+            e.style.display = 'inline'
+        })
+        document.querySelectorAll('.btnMove').forEach((e)=>{
+            e.style.display = 'none'
+        })
+    }
+
+    function openNav() {
+        document.getElementById("menu_left").style.width = "200px";
+        document.getElementById("grid_overview").style.marginLeft = "215px";
+    }
+
+    function closeNav() {
+        document.getElementById("menu_left").style.width = "0";
+        document.getElementById("grid_overview").style.marginLeft= "20px";
+    }
+</script>
+
+
+</html>

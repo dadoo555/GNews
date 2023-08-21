@@ -1,0 +1,27 @@
+<script>
+    function gotoHome(){
+        window.location = '/';
+    }
+
+    function gotoAdmin(){
+        window.location = '/login';
+    }
+</script>
+
+<!-- <script src="https://kit.fontawesome.com/51f2407d07.js" crossorigin="anonymous"></script> -->
+
+<nav>
+    <div class="nav-container">
+        <div class="nav-items-left">
+            <i class="fa-solid fa-newspaper fa-lg" style="color: white"></i>
+            
+            <a class="btn-navbar btn-home" onclick="gotoHome()" href="#"><b>G News</b></a>
+            <a class="btn-navbar" href="">Sports</a>
+            </div>
+            <div class="nav-items-right">
+            <!-- <input class="txtFind" type="text">
+            <button type="submit">find</button> -->
+            <a href="#" onclick="gotoAdmin()" class="btn-admin">Login</a>
+        </div>
+    </div>
+</nav>

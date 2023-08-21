@@ -1,0 +1,63 @@
+.nav-container {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    position: fixed;
+    margin: 0; 
+    height: 20px;
+
+  }
+  
+  .nav-items-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    
+  }
+  
+  .nav-items-right {
+    display: flex;
+    align-items: right;
+    gap: 10px;
+    padding-right: 20px;
+  }
+  
+.btn-navbar {
+    text-decoration: none;
+    color: white;
+    font-family: "Lato", sans-serif;
+  }
+  
+.txtFind {
+   width: 100px;
+   height: 80%;
+  }
+  
+button {
+    height: 30px;
+  }
+  
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+.btn-home {
+  margin: 0 20px 0 0;
+  padding: 0;
+  color: white;
+}
+
+.btn-admin {
+  text-decoration: none;
+  margin: 0;
+  padding: 2px 5px 2px 5px;
+  background-color: silver;
+  color: black;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}

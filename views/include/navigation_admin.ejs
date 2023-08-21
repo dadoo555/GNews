@@ -1,0 +1,59 @@
+<script>
+    function gotoOverview(){
+        window.location = '/administration/overview';
+    }
+
+    function gotoNewPost(){
+        window.location = '/administration/newpost';
+    }
+    
+    function gotoSettings(){
+        window.location = '/administration/settings';
+    }
+    
+
+
+</script>
+
+    
+    <!-- navbar top -->
+    <nav>
+        <div id="navbar">
+            <div class="left">
+                <a class="btnOpen" href="#" onclick="openNav()">
+                    <div>&#9776;</div>
+                </a>
+                <div><p><b>Adminstration G News</b></p></div>
+            </div>
+            <div class="right">
+                <%if (user) {%>
+                <p>User: </p>
+                <p class="username"><%= user.name %></p>
+                <%}%>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu left -->
+    <div id="menu_left">
+        <a class="btnClose" onclick="closeNav()" href="#">
+            <div class="item_menu_btnClose">
+                <p class="p_btnClose">&times;</p>
+            </div>
+        </a>
+        <a onclick="gotoOverview()" href="#">
+            <div class="item_menu">
+                <p>📰 Posts overview</p>
+            </div>
+        </a>
+        <a onclick="gotoNewPost()" href="#">
+            <div class="item_menu">
+                <p>➕ New Post</p>
+            </div>
+        </a>
+        <a href="#" onclick="gotoSettings()">
+            <div class="item_menu">
+                <p>⚙️ Settings</p>
+            </div>
+        </a>
+    </div>

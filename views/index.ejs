@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G News</title>
+    <link rel="stylesheet" href="css/homepage.css" type="text/css">
+    <link rel="stylesheet" href="css/navbar.css" type="text/css">
+    <link type="image/x-icon" rel="icon" href="images/favicon.ico">
+</head>
+<body>
+   
+    <!-- NavBar -->
+    <%- include('include/navbar'); %>
+
+    <!-- Grid -->
+    <div class="structure">
+        <div class="containerNews">
+
+            <% chavesNoticias.forEach(key => { %>               
+                <!-- Card -->
+                <div class="<%= listaNoticias[key].card_size %>Card" class="card">
+                    <div class="card-container">
+                        <a href="/news/<%= listaNoticias[key].url_path %>">
+                            <img src="<%= listaNoticias[key].path %>" alt="">
+                        </a>
+                        <div class="card-title-container">
+                            <a href="/news/<%= listaNoticias[key].url_path %>" class="title"><b><%= listaNoticias[key].title %></b></a>
+                            <a href="/news/<%= listaNoticias[key].url_path %>" class="subtitle"><b><%= listaNoticias[key].subtitle %></b></a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+
+        </div>
+    </div>
+    
+    <!-- Old news section ?  -->
+
+</body>
+</html>

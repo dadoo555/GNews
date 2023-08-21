@@ -1,0 +1,164 @@
+body {
+    background-color:lightblue;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+#grid_overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto-fit,auto);
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 215px;
+    margin-right: 20px;
+    gap: 15px;
+    transition: margin-left .5s;
+}
+
+.item_grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 50px;
+    grid-template-rows: auto auto;
+    background: rgb(140,165,165);
+    background: linear-gradient(90deg, rgba(140,165,165,1) 70%, rgba(76,84,84,1) 100%);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 3px 3px 8px  black;
+}
+
+.item_grid:hover {
+
+    outline: 1.5px solid rgb(41, 89, 96);
+}
+
+
+
+.form-box-top-left {
+    display: flex;
+    flex-direction: row;
+    margin: 0 5px 0 0;
+}
+
+.form-box-top-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-row: span 2;
+    justify-self: right;
+}
+
+.form-box-text {
+    grid-column: span 2;
+    font-size: 0.7rem;
+    margin: 15px 0 0 0 ;
+}
+
+.title-box {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.title {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+}
+
+
+img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+
+
+.form-box-top-right a {
+    margin: 5px 5px 0 5px;
+    
+}
+
+.form-box-top-right .fa-solid {
+    color: rgb(129, 129, 129);
+}
+
+.form-box-top-right .fa-solid:hover {
+    color: rgb(188, 188, 188);
+}
+
+#alertDelete {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: center;
+    margin: 50px 0 0 ;
+    width: 300px;
+    height: 0;
+
+    left: calc(50% - 150px);
+    gap: 10px;
+    transition: margin-left .5s;
+    overflow: hidden;
+    align-items: center;
+    background-color: rgb(209, 209, 130);
+    border-radius: 10px;
+    box-shadow: 2px 2px 15px black;
+    transition: 0.5s;
+}
+
+#alertDelete a {
+    margin: 0;
+    color: black;
+    text-decoration: none;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+#alertDelete a:hover{
+    background-color: rgb(217, 217, 151);
+}
+
+#alertDelete p {
+    margin-right: 10px;
+}
+
+#btnReorder {
+    position: fixed;
+    right: 30px;
+    top: 50px;
+    color: black;
+    text-decoration: none;
+
+}
+
+#btnSave {
+    position: fixed;
+    display: none;
+    right: 100px;
+    top: 50px;
+    color: rgb(0, 186, 0);
+    text-decoration: none;
+}
+
+.btnMove {
+    display: none;
+}
+
+@media (max-width: 1400px) {
+    #grid_overview {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 1000px) {
+    #grid_overview {
+        grid-template-columns: 1fr;
+    }
+}
+

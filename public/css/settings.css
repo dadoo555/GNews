@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(228, 228, 228);
+}
+
+
+#newUser {
+    margin: 50px 0 0 215px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content; 
+    
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#newUser label {
+    font-size: 0.8rem;
+    max-width: 200px;
+}
+
+#newUser input {
+    max-width: 200px;
+    height: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 3px 0 10px 0;
+}
+
+.btnRegister a {
+    text-decoration: none;
+    font-size: 0.8rem;
+    color: black;
+}
+
+.btnRegister {
+    margin-top: 15px;
+    display: flex;
+    align-self: flex-end;
+    background-color: rgb(155, 203, 219);
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnRegister:hover {
+    background-color: rgb(118, 181, 202);
+}
+
+.btnRegister:active {
+    background-color: rgb(63, 111, 128);
+}

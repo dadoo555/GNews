@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G News | Login Administration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    form {
+        align-items: center;
+        width: 30vh;
+    }
+
+    .wrong-password {
+        display: flex;
+        width: 30vh;
+        height: 35px;
+        background-color: rgb(255, 243, 152);
+        margin-bottom: 10px;
+        border-radius: 5px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p {
+        width: fit-content;
+        height: fit-content;
+        margin: 0;
+        font-size: 0.8rem;
+        color: rgb(61, 57, 20);
+    }
+
+</style>
+
+<body>
+    
+    <!-- Wrong password -->
+    <% if (typeof errName != 'undefined') { %>  
+        <div class="wrong-password">
+            <p><b><%= errName %> wrong!</b></p>
+        </div>
+    <% } %>
+
+    <!-- Form -->
+    <form action="/login" method="post">
+        <div class="mb-3">
+            <label for="inputUsernamed" class="form-label">Username</label>
+            <input name="username" type="username" class="form-control" id="inputUsername" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+
+
+</body>
+</html>
