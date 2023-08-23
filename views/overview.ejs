@@ -91,7 +91,7 @@
                 const grid = document.getElementById('grid_overview');
                 grid.removeChild(cardToRemove);
                 // alert('Sucesso') 
-                document.getElementById("alertDelete").style.display = 'none';
+                document.getElementById("alertDelete").style.height = '0px'
             }
             else{
                 console.log(id_newsToDelete)
@@ -111,7 +111,7 @@
     }
 
     function updateNews(id){
-
+        window.location = `/administration/${id}/edit`
     }
 
         let originalOrder = []

@@ -1,0 +1,199 @@
+body {
+    margin: 0;
+    background-color: lightblue;
+}
+
+#whitebox {
+    margin: 90px 20px 20px 220px;
+    padding: 10px 0 20px 0  ;
+    background-color: white;
+    max-width: 1000px;
+    min-width: 900px;
+    border-radius: 10px;
+    transition: margin-left .5s;
+}
+
+label {
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    margin: 10px 0 3px 20px;
+    
+}
+
+#title {
+    height: 25px;
+    width: calc(100% - 48px);
+    margin: 0 20px 0 20px;
+    min-width: 400px;
+
+}
+
+
+#subtitle {
+    height: 40px;
+    min-width: calc(100% - 48px);
+    max-width: calc(100% - 48px);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 20px 0 20px;
+
+}
+
+#author {
+    height: 28px;
+    width: 100%;
+    min-width: 120px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+#locality {
+    height: 25px;
+    width: 100%;
+
+}
+
+#picture {
+    height: 25px;
+    width: calc(100% - 48px);
+    margin: 0 20px 0 20px;
+}
+
+#picture-description {
+    height: 25px;
+    width: calc(100% - 48px);
+    margin: 0 20px 0 20px;
+}
+
+input {
+    border: 1.5px solid rgb(209, 208, 208);
+    border-radius: 5px;
+}
+
+input::placeholder {
+    font-size: 0.8rem;
+}
+
+textarea {
+    border: 1.5px solid rgb(209, 208, 208);
+    border-radius: 5px;
+}
+
+select {
+    border: 1.5px solid rgb(209, 208, 208);
+    border-radius: 5px;
+    padding: 1px;
+
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    color: rgb(72, 72, 72);
+    margin: 5px 0 20px 20px;
+}
+
+button {
+    margin: 20px 20px 0 0;
+    border: 0;
+    border-radius: 3px;
+    background-color: lightblue;
+    color: black;
+    width: 80px;
+    height: 30px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+
+}
+
+.buttons > button:hover {
+    background-color: rgb(118, 196, 223);
+}
+
+.buttons > button:active {
+    background-color: rgb(72, 148, 174);
+}
+
+.errAlert {
+    display: flex;
+    width: fit-content;
+    height: 20px;
+    margin: 10px 0 10px 20px;
+    background-color: rgb(255, 255, 167);
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    padding: 1px 10px 1px 10px;
+    align-items: center;
+}
+
+ #urlpath {
+    /* height: 25px; */
+    width: calc(100% - 48px);
+    min-height: 15px;
+    border: 1.5px solid rgb(209, 208, 208);;
+    border-radius: 5px;
+    margin: 0 20px 0 20px;
+    background-color: rgb(238, 238, 238);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    padding: 6px 2px;
+ }
+
+ .labelUrl {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    margin: 10px 0 3px 20px;
+    
+ }
+
+ .box-author-locality {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 20px 0 20px;
+    gap: 20px;
+ }
+
+ .box-author-locality label {
+    margin: 10px 0 3px 0;
+ }
+
+ #text {
+    width: 100%;
+    max-width: 575px;
+    min-width: 400px;
+    height: 330px;
+    max-height: 500px;
+    min-height: 300px;
+ }
+
+ .container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+ }
+
+ .container-right label {
+    margin-left: 0;
+ }
+
+ .container-right {
+    width: 100%;
+    padding-right: 20px;
+ }
+
+ .radio {
+    font-size: 0.8rem;
+ }
+
+ #card-radio-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+ }

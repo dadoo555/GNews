@@ -144,63 +144,6 @@ app.post('/login', urlEncodedParser, validation, (req,res) => {
 
 
 
-
-// app.get('/uma-rota', (req, res) => {
-//     if (!req.session.contador){
-//         req.session.contador = 0
-//     }
-//     req.session.contador++
-//     console.log("")
-
-
-//     let sqlQuery = "SELECT news.news_id AS id, url_path, title, subtitle, LEFT(text, 300) AS text, path FROM news JOIN pictures ON pictures.news_id = news.news_id"
-//     connection.query(sqlQuery, (err,result, fields) =>{ 
-//         if (err) throw err;
-//         noticias = result
-
-
-
-
-//         res.json({
-//             meuContador: req.session.contador,
-//             user: req.session.user,
-//             num_of_news: result.length,
-//             news: noticias
-//         })
-
-        
-        // res.status(200) // OK
-        // res.setHeader('content-type', 'application/json')
-        // res.write('{')
-        // res.write(`"num_of_news": ${result.length},`)
-
-        // let newsInJson = '['
-        // noticias.forEach((noticia) => {
-        //     newsInJson = newsInJson + `{'title': '${noticia.title}', 'subtitle': '${noticia.subtitle}',},`
-        // })
-        // newsInJson = newsInJson + '],'
-
-        // res.write(`"news": ${newsInJson}`)
-        // res.write('}')
-        // res.end()
-//     })
-
-
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // !!!!   IMPLEMENTAR  !!!! ............................................................
 app.get('/sports', (req,res) => {
     res.send('esportes')

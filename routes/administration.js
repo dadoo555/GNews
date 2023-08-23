@@ -54,7 +54,6 @@ router.get('/newpost', checkUser,(req, res)=>{
     const sqlQuery = "SELECT author_id, name FROM authors"
     connection.query(sqlQuery, (err, results, field)=>{
         if (err) throw err;
-        console.log(results)
 
         res.render('newpost',{
             authorsList: results,
@@ -83,7 +82,7 @@ router.post('/newpost', urlEncodedParser, [
         
         // Caso tenha erro
         const errors = validationResult(req)
-        console.log(errors.array())
+ 
         if(!errors.isEmpty()){ 
             res.redirect('/administration/newpost?error=true')
             return
@@ -162,20 +161,35 @@ router.post('/newpost', urlEncodedParser, [
 
 router.post('/overview/:newsID/delete', (req,res)=>{
     const idNewsToRemove = req.params.newsID
-    console.log(req.params.newsID)
-    const sqlQuery =    `DELETE FROM news 
-                         WHERE (news.news_id='${idNewsToRemove}');
-                         DELETE FROM index_homepage
-                         WHERE (index_homepage.news_id = '${idNewsToRemove}');
-                         DELETE FROM pictures
+    const sqlQuery =    `DELETE FROM pictures
                          WHERE (pictures.news_id = '${idNewsToRemove}')`
     connection.query(sqlQuery, (err, results, field)=>{
         if (err){
-            res.status(500).json({status: 'Deu errado'})
+            res.status(500).json({status: 'Deu errado imagem'})
             return
         }
-        console.log('Removido da DB')
-        res.json({status: 'Deu certo'})
+        // console.log('Removido da DB')
+        // res.json({status: 'Deu certo'})
+
+        const sqlQuery2 =   `DELETE FROM index_homepage
+                            WHERE (index_homepage.news_id = '${idNewsToRemove}')`
+        connection.query(sqlQuery2, (err,result,field)=>{
+            if (err){
+                res.status(500).json({status: 'Deu errado index'})
+            }
+            // res.json({status: 'Deu certo'})
+
+            const sqlQuery3 =   `DELETE FROM news 
+                                WHERE (news.news_id='${idNewsToRemove}')`
+            connection.query(sqlQuery3, (err,result,field)=>{
+                if (err){
+                    res.status(500).json({status: 'Deu errado news'})
+                }
+                res.json({status: 'Deu certo'})
+            })
+        
+
+        })
     })
 })
 
@@ -203,6 +217,48 @@ router.post('/overview/saveOrder', (req,res)=>{
 })
     
 
+// ........................ Edit News ........................................
+
+router.get('/:newsId/edit', checkUser, (req,res)=>{
+
+    const sqlQuery =   `SELECT url_path, title, subtitle, card_size, text, date, locality, description, path, name AS author_name, authors.author_id 
+                        FROM news 
+                        JOIN pictures 
+                            ON pictures.news_id = news.news_id
+                        JOIN authors
+                            ON news.author_id = authors.author_id
+                        WHERE news.news_id = '${req.params.newsId}'`
+    connection.query(sqlQuery, (err, results, field)=>{
+        if (err){
+            res.render('error')
+            return
+        }
+
+        //const with data
+        const data = results
+
+        //Authors List DB
+        const sqlQuery2 = "SELECT author_id, name FROM authors"
+        connection.query(sqlQuery2, (err, authorsList, field)=>{
+            if (err){
+                res.render('error')
+                return
+            }
+
+            //Render
+            res.render('editNews', {
+                user: req.session.user,
+                data: data,
+                authorsList
+            })
+        })
+    })
+})
+
+
+
+
+
 // ........................ Settings ........................................
 
 router.get('/settings', checkUser ,(req, res)=>{
@@ -211,5 +267,9 @@ router.get('/settings', checkUser ,(req, res)=>{
     })
 })
 
+
+router.get('/rrr',(req,res)=>{
+    res.send(req.query.idD)  
+})
 
 module.exports = router
