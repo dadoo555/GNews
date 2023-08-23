@@ -30,7 +30,7 @@
         
         <!-- Item -->
         <% chavesNoticias.forEach(key => { %>
-            <div id="id-<%= listaNoticias[key].id %>" class="item_grid">
+            <div id="id-<%= listaNoticias[key].id %>" class="item_grid" data-noticia-id="<%= listaNoticias[key].id %>">
                 <div class="form-box-top-left">
                     <div class="title-box">
                         <div class="title">
@@ -111,7 +111,8 @@
     }
 
     function updateNews(id){
-        window.location = `/administration/${id}/edit`
+        // window.location = `/administration/${id}/edit`
+        window.location = `/administration/edit?idNews=${id}`
     }
 
         let originalOrder = []
@@ -202,7 +203,8 @@
         let database = []
 
         for (let i = newsCount - 1; i >= 0; i--){
-            database.push(news.children[i].id.slice(3))
+            let newsId = news.children[i].dataset.noticiaId
+            database.push(newsId)
         }
 
         //Fetch DB

@@ -31,9 +31,9 @@ label {
 
 
 #subtitle {
-    height: 40px;
+    height: 60px;
     min-width: calc(100% - 48px);
-    max-width: calc(100% - 48px);
+    max-width: 300px;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0 20px 0 20px;
 

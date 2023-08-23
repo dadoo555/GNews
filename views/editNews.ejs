@@ -16,10 +16,13 @@
     <!-- Form New Post -->
     <div id="whitebox">
         <h2>Edit news</h2>
-        <form name="formNewPost" action="/administration/newpost" method="post">
+        <form name="formNewPost" action="/administration/edit" method="post" onsubmit="processaSubmissao(event)">
             <div class="container">
                 <!-- Box Left -->
                 <div class="container-left">
+
+                    <input name="id" type="hidden" value="<%= data[0].news_id %>">
+
                     <!-- TITULO -->
                     <label class="title-label" for="title">Title:</label>
                     <input  type="text" 
@@ -28,7 +31,7 @@
                             autocomplete="off" 
                             spellcheck="false" 
                             onkeyup="urlGenerator()"
-                            value=<%= escape((data[0].title)) %>>
+                            value='<%= data[0].title %>'>
 
                     <!-- url path -->
                     <p class="labelUrl">News URL:</p>
@@ -36,7 +39,7 @@
                         name="urlpath" 
                         type="text" 
                         id="urlpath"
-                        value=<%= data[0].url_path %>>
+                        value='<%= data[0].url_path %>'>
 
                     <!-- SUBTITULO -->
                     <label for="subtitle">Subtitle:</label>
@@ -44,9 +47,7 @@
                         name="subtitle" 
                         id="subtitle" cols="30" rows="10" 
                         spellcheck="false" 
-                        autocomplete="off"
-                        value=<%= data[0].subtitle %>>
-                    </textarea>
+                        autocomplete="off"><%= data[0].subtitle %></textarea>
 
                     <div class="box-author-locality">
                         <!-- AUTHOR -->
@@ -74,7 +75,7 @@
                                 autocomplete="off" 
                                 spellcheck="false" 
                                 placeholder="Rio de Janeiro, Brasil"
-                                value=<%= data[0].locality %>>
+                                value='<%= data[0].locality %>'>
                         </div>
                         
                     </div>
@@ -83,11 +84,11 @@
                     <label>Card size on Homepage:</label>
                     <div id="card-radio-container">
                         <% if (data[0].card_size == 'big'){ %>
-                            <label><input class="radio" type="radio" name="cardsize" value="big" selected>Big Card</label>
+                            <label><input class="radio" type="radio" name="cardsize" value="big" checked>Big Card</label>
                             <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
                         <% } else { %>
                             <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
-                            <label><input class="radio" type="radio" name="cardsize" value="normal" selected>Normal Card</label>
+                            <label><input class="radio" type="radio" name="cardsize" value="normal" checked>Normal Card</label>
                         <% } %>
                     </div>
 
@@ -100,7 +101,7 @@
                         autocomplete="off" 
                         spellcheck="false" 
                         placeholder="/public/images/img1.jpg"
-                        value=<%= data[0].path %>>
+                        value='<%= data[0].path %>'>
 
                     <!-- PICTURE DESCRIPTION -->
                     <label for="picture-description">Picture description:</label>
@@ -110,7 +111,7 @@
                         autocomplete="off" 
                         spellcheck="false" 
                         id="picture-description"
-                        value=<%= data[0].description %>>
+                        value='<%= data[0].description %>'>
                 </div>
                 
                 <!-- Box Right -->
@@ -121,14 +122,12 @@
                         name="text" 
                         id="text" cols="30" rows="10" 
                         spellcheck="false" 
-                        autocomplete="off"
-                        value=<%= data[0].text %>>
-                    </textarea>
+                        autocomplete="off"><%= data[0].text %></textarea>
                 </div>
             </div>
 
             <!-- Alerta de erro de preenchimento -->
-            <% if (typeof erro != 'undefined') { %>
+            <% if (erro) { %>
             <div class="errAlert" id="errAlert">
                 <p class="errAlertP">Preencher todos campos obrigatórios!</p>
             </div>
@@ -136,13 +135,18 @@
 
             <!-- BUTTONS -->
             <div class="buttons">
-                <button name="reset" type="reset">Clear</button>
-                <button name="publish" type="submit">Publish</button>
+                <button name="reset" type="reset">Restore</button>
+                <button name="publish" type="submit">Save</button>
             </div>
         </form>
     </div>
 
 <script>
+
+    function processaSubmissao(umEvento){
+        // umEvento.preventDefault();
+        // fetch com POST
+    }
 
     function urlGenerator(){
         const value = document.getElementById("title").value;

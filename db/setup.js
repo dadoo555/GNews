@@ -14,4 +14,18 @@ connection.connect(function(err){
     
 })
 
-module.exports = {connection: connection}
+const db = require('mysql2-promise')()
+db.configure({
+    host: '127.0.0.1',
+    port: '3306',
+    user: 'root',
+    password: 'calendario',
+    database: 'news_db'
+
+})
+
+
+
+
+
+module.exports = {connection: connection, db: db}

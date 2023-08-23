@@ -3,6 +3,11 @@ const app = express()
 const connection = require('./db/setup').connection
 
 
+const bodyParser = require('body-parser')
+const { check, validationResult } = require('express-validator')
+// const { json } = require('body-parser')
+const urlEncodedParser = bodyParser.urlencoded({ extended: false })
+
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -73,10 +78,6 @@ app.get('/news/:newsID', (req,res) => {
 
 // ........................ Login validation Const ........................................
 
-const bodyParser = require('body-parser')
-const { check, validationResult } = require('express-validator')
-// const { json } = require('body-parser')
-const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
 // ........................ Login ........................................
 

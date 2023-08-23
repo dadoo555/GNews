@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const connection = require('../db/setup').connection
+const dbSetup = require('../db/setup')
+const connection = dbSetup.connection
+const db = dbSetup.db
 const checkUser = require('../lib').checkUser
 
 // ........................ Sessao ........................................
@@ -52,15 +54,33 @@ router.get('/overview', checkUser, (req,res)=> {
 router.get('/newpost', checkUser,(req, res)=>{
     
     const sqlQuery = "SELECT author_id, name FROM authors"
-    connection.query(sqlQuery, (err, results, field)=>{
-        if (err) throw err;
-
-        res.render('newpost',{
-            authorsList: results,
+    db.query(sqlQuery).then((result)=>{
+        const [dados] = result
+        res.render('newpost', {
+            authorsList: dados,
             erro: req.query.error,
             user: req.session.user
         })
-    })  
+        
+
+        // console.log(dados)
+    }).catch((erro)=>{
+        console.log(erro)
+        res.status(500)
+    })
+
+
+
+
+    // connection.query(sqlQuery, (err, results, field)=>{
+    //     if (err) throw err;
+
+    //     res.render('newpost',{
+    //         authorsList: results,
+    //         erro: req.query.error,
+    //         user: req.session.user
+    //     })
+    // })  
 })
 
 router.post('/newpost', urlEncodedParser, [
@@ -219,15 +239,16 @@ router.post('/overview/saveOrder', (req,res)=>{
 
 // ........................ Edit News ........................................
 
-router.get('/:newsId/edit', checkUser, (req,res)=>{
-
-    const sqlQuery =   `SELECT url_path, title, subtitle, card_size, text, date, locality, description, path, name AS author_name, authors.author_id 
+// router.get('/:newsId/edit', checkUser, (req,res)=>{
+router.get('/edit', checkUser, (req,res)=>{
+    
+    const sqlQuery =   `SELECT news.news_id, url_path, title, subtitle, card_size, text, date, locality, description, path, name AS author_name, authors.author_id 
                         FROM news 
                         JOIN pictures 
                             ON pictures.news_id = news.news_id
                         JOIN authors
                             ON news.author_id = authors.author_id
-                        WHERE news.news_id = '${req.params.newsId}'`
+                        WHERE news.news_id = '${req.query.idNews}'`
     connection.query(sqlQuery, (err, results, field)=>{
         if (err){
             res.render('error')
@@ -249,13 +270,40 @@ router.get('/:newsId/edit', checkUser, (req,res)=>{
             res.render('editNews', {
                 user: req.session.user,
                 data: data,
-                authorsList
+                authorsList,
+                erro: req.query.error
             })
         })
     })
 })
 
+router.post('/edit', urlEncodedParser, [
+    check('title', 'title')
+        .isLength({min: 3}),
+    check('subtitle', 'subtitle')
+        .isLength({min: 3}),
+    check('locality', 'locality')
+        .isLength({min: 3}),
+    check('picture', 'picture')
+        .isLength({min: 3}),
+    check('picture-description', 'picture-description')
+        .isLength({min: 3}),
+    check('text').isLength({min: 10}),
 
+],(req,res)=>{
+
+    // Caso tenha erro de preenchimento
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){ 
+        res.redirect(`/administration/edit?idNews=${req.body.id}&error=true`)
+        return
+    }
+
+    //DB
+    const sqlQuery = ``
+    res.send('deu')
+
+})
 
 
 
