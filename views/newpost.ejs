@@ -20,7 +20,7 @@
     <div id="structure">
         <div id="whitebox">
             <h2>New news post</h2>
-            <form name="formNewPost" action="/administration/newpost" method="post">
+            <form name="formNewPost" action="/administration/newpost" method="post" onsubmit="publishNews(event)">
                 <div class="container">
                     <!-- Box Left -->
                     <div class="container-left">
@@ -69,8 +69,8 @@
                         <input type="text" name="picture" id="picture" autocomplete="off" spellcheck="false" placeholder="/public/images/img1.jpg" >
 
                         <!-- PICTURE DESCRIPTION -->
-                        <label for="picture-description">Picture description:</label>
-                        <input type="text" name="picture-description" autocomplete="off" spellcheck="false" id="picture-description">
+                        <label for="picturedescription">Picture description:</label>
+                        <input type="text" name="picturedescription" autocomplete="off" spellcheck="false" id="picturedescription">
                     </div>
                     
                     <!-- Box Right -->
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- Alerta de erro de preenchimento -->
-                <% if (typeof erro != 'undefined') { %>
+                <% if (erro) { %>
                 <div class="errAlert" id="errAlert">
                     <p class="errAlertP">Preencher todos campos obrigatórios!</p>
                 </div>
@@ -107,6 +107,45 @@
             }
         }
 
+        function publishNews(ev){
+            ev.preventDefault()
+
+            let cardsize = document.querySelector('input[name="cardsize"]:checked').value
+            let data = {
+                'title': document.getElementById("title").value,
+                'subtitle': document.getElementById("subtitle").value,
+                'urlpath': document.getElementById("urlpath").value,
+                'author': document.getElementById("author").value,
+                'locality': document.getElementById("locality").value,
+                'picture': document.getElementById("picture").value,
+                'picturedescription': document.getElementById("picturedescription").value,
+                'text': document.getElementById("text").value,
+                'cardsize': cardsize
+            }
+
+            // //Fetch DB
+            let requestPromise = fetch('/administration/newpost', 
+                        {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({data: data})
+            })
+
+            requestPromise.then((res)=>{
+                if (res.ok){
+                    // Ir pra pagina Overview  ?????
+                    return
+                }
+            }).catch((err)=>{
+                //renderizear pagina ERRO ao fazer nao faco ideia ???
+            })
+
+        }
+            
+       
     </script>
 </body>
 </html>

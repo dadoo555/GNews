@@ -17,8 +17,8 @@
     <div id="structure">
         <div id="whitebox">
             <h2>Edit news</h2>
-            <form name="formNewPost" action="/administration/edit" method="post" onsubmit="processaSubmissao(event)">
-                <div class="container">
+            <form name="formEditPost" action="/administration/edit" method="post" onsubmit="saveChanges(event)">
+                <div id="container" class="container">
                     <!-- Box Left -->
                     <div class="container-left">
 
@@ -144,9 +144,25 @@
     </div>
 <script>
 
-    function processaSubmissao(umEvento){
-        // umEvento.preventDefault();
-        // fetch com POST
+    function saveChanges(formEvent){
+        formEvent.preventDefault();
+
+        // let data = {
+        //     'title': 
+        // }
+
+
+        // //Fetch DB
+        // let promise = fetch('/administration/edit', 
+        //     {
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         },
+        //         method: 'POST',
+        //         body: JSON.stringify({dados: database})
+        //     })
+
     }
 
     function urlGenerator(){

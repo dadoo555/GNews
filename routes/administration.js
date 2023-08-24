@@ -64,23 +64,10 @@ router.get('/newpost', checkUser,(req, res)=>{
         
 
         // console.log(dados)
-    }).catch((erro)=>{
-        console.log(erro)
+    }).catch((err)=>{
+        console.log(err)
         res.status(500)
     })
-
-
-
-
-    // connection.query(sqlQuery, (err, results, field)=>{
-    //     if (err) throw err;
-
-    //     res.render('newpost',{
-    //         authorsList: results,
-    //         erro: req.query.error,
-    //         user: req.session.user
-    //     })
-    // })  
 })
 
 router.post('/newpost', urlEncodedParser, [
@@ -93,14 +80,14 @@ router.post('/newpost', urlEncodedParser, [
             .isLength({min: 3}),
         check('picture', 'picture')
             .isLength({min: 3}),
-        check('picture-description', 'picture-description')
+        check('picturedescription', 'picture-description')
             .isLength({min: 3}),
         check('text').isLength({min: 10}),
 
 
     ], (req, res)=>{
         
-        // Caso tenha erro
+        //Validation Error
         const errors = validationResult(req)
  
         if(!errors.isEmpty()){ 
@@ -108,73 +95,36 @@ router.post('/newpost', urlEncodedParser, [
             return
         }
 
-        //Caso esteja ok, adicionar na DB
+        //DB
         let currentDate = new Date().toJSON().slice(0, 10);
+        let {urlpath, cardsize, title, subtitle, text, locality, author, picture, picturedescription} = req.body.data
 
-        // news
-        // console.log(req.body)
-        const sqlQuery =   `INSERT INTO news
+        const queryNews =   `INSERT INTO news
                                 (url_path, card_size, title, subtitle, text, date, locality, author_id)
                             VALUES
-                                ('${req.body.urlpath}',  
-                                '${req.body.cardsize}',
-                                '${req.body.title}',
-                                '${req.body.subtitle}',
-                                '${req.body.text}',
-                                '${currentDate}', 
-                                '${req.body.locality}',
-                                '${req.body.author}')`
+                                ('${urlpath}','${cardsize}','${title}','${subtitle}','${text}','${currentDate}','${locality}','${author}')`
+        const queryPictures =   `INSERT INTO pictures
+                                (description, path, news_id)
+                            VALUES
+                                ('${picturedescription}','${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
+        const queryIndex = `INSERT INTO index_homepage
+                                (index_id, index_homepage.news_id)
+                             VALUES
+                                ((SELECT MAX(index_id) + 1 FROM index_homepage i), 
+                                (SELECT news_id FROM news WHERE url_path='${urlpath}'));`
 
-        connection.query(sqlQuery, (err, results, field)=>{
-            if (err){
-                res.status(500)
-                res.render('error')
-                // throw err;
-                return
-            }
-            console.log('Adicionado em noticias db')
-
-            // pictures
-            const sqlQuery2 =   `INSERT INTO pictures
-                                    (description, path, news_id)
-                                VALUES
-                                    ('${req.body['picture-description']}', 
-                                    '${req.body.picture}', 
-                                    (SELECT news_id FROM news WHERE url_path='${req.body.urlpath}'));`
-
-            connection.query(sqlQuery2 ,(err, results, field)=>{
-                if (err){
-                    res.status(500)
-                    res.render('error')
-                    // throw err;
-                    return
-                }
-                console.log('Adicionado em ordem pictures')
-
-                // ordem
-                const sqlQuery3 = `INSERT INTO index_homepage
-                                        (index_id, index_homepage.news_id)
-                                     VALUES
-                                        ((SELECT MAX(index_id) + 1 FROM index_homepage i), 
-                                        (SELECT news_id FROM news WHERE url_path='${req.body.urlpath}'));`
-                connection.query(sqlQuery3 ,(err, results, field)=>{
-                    if (err){
-                        res.status(500)
-                        res.render('error')
-                        // throw err;
-                        return
-                    }
-                    console.log('Adicionado em ordem db')
-                })
-            })
-
-            // //redirecionar pro overview
-            res.redirect('/administration/overview')
-
-
+        db.query(queryNews).then(()=>{
+            return db.query(queryPictures)
+        }).then(()=>{
+            return db.query(queryIndex)
+        }).then(()=>{
+            res.status(200).json({status: 'DB add news OK'})
+            //fazer o que?
+        }).catch((err)=>{
+            console.log(err)
+            res.status(500).json({status: 'Error DB new post'})
+            //resolver pelo browser???
         })
-
-        
     })
 
 // ........................ Delete post ........................................
@@ -239,7 +189,6 @@ router.post('/overview/saveOrder', (req,res)=>{
 
 // ........................ Edit News ........................................
 
-// router.get('/:newsId/edit', checkUser, (req,res)=>{
 router.get('/edit', checkUser, (req,res)=>{
     
     const sqlQuery =   `SELECT news.news_id, url_path, title, subtitle, card_size, text, date, locality, description, path, name AS author_name, authors.author_id 

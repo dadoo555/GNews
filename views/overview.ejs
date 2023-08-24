@@ -67,14 +67,13 @@
 
 <script src="https://kit.fontawesome.com/51f2407d07.js" crossorigin="anonymous"></script>
 <script>
-    let deactivateButtons = false
 
+    let deactivateButtons = false
     let id_newsToDelete
+    let originalOrder = []
+
     function confirmDelete(id){
-        
-        if (deactivateButtons == true){return}
         id_newsToDelete = id
-        console.log(id_newsToDelete)
         document.getElementById("alertDelete").style.height = '40px'
     }
 
@@ -83,7 +82,7 @@
     }
     
     function removeNews(){
-        console.log(id_newsToDelete)
+
         //mandar o POST.
         let requestPromise = fetch(`/administration/overview/${id_newsToDelete}/delete`, {method: 'post'})
         requestPromise.then((response)=> {
@@ -97,14 +96,14 @@
                 document.getElementById("alertDelete").style.height = '0px'
             }
             else{
-                console.log(id_newsToDelete)
+
                 alert('nao foi possivel excluir')
             }
 
             
         })
         requestPromise.catch((err) => {
-            console.log("Deu erro fetch remover ", err)
+
             alert('Deu errado fetch remover')
         })
     } 
@@ -114,11 +113,10 @@
     }
 
     function updateNews(id){
-        // window.location = `/administration/${id}/edit`
         window.location = `/administration/edit?idNews=${id}`
     }
 
-        let originalOrder = []
+        
     function layoutReorder(){
         
         if (deactivateButtons == false){
