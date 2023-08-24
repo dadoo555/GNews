@@ -14,52 +14,55 @@
     <!-- Navbar and sidenav -->
     <%- include('include/navigation_admin') %>
 
-    <!-- Alert delete -->
-    <div id="alertDelete">
-        <p>Confirm Delete?</p>
-        <a href="#" onclick="removeNews()">Yes</a>
-        <a href="#" onclick="dontDelete()">Cancel</a>
-    </div>
+    <div class="scroll-box-over">
+        <!-- Alert delete -->
+        <div id="alertDelete">
+            <p>Confirm Delete?</p>
+            <a href="#" onclick="removeNews()">Yes</a>
+            <a href="#" onclick="dontDelete()">Cancel</a>
+        </div>
 
-    <!-- Reorder -->
-    <a id="btnSave" href="#" onclick="saveOrder()"><b>Save</b></a>
-    <a id="btnReorder" href="#" onclick="layoutReorder()"><b>Reorder items</b></a>
+        <!-- Reorder -->
+        <a id="btnSave" href="#" onclick="saveOrder()"><b>Save</b></a>
+        <a id="btnReorder" href="#" onclick="layoutReorder()"><b>Reorder items</b></a>
+    </div>
 
     <!-- GRID News Overview -->
-    <div id="grid_overview">
-        
-        <!-- Item -->
-        <% chavesNoticias.forEach(key => { %>
-            <div id="id-<%= listaNoticias[key].id %>" class="item_grid" data-noticia-id="<%= listaNoticias[key].id %>">
-                <div class="form-box-top-left">
-                    <div class="title-box">
-                        <div class="title">
-                            <p><b><%= listaNoticias[key].title %></b></p>
-                        </div>
-                        <div class="subtitle">
-                            <p><%= listaNoticias[key].subtitle %></p>
+    <div id="structure">
+        <div id="grid_overview">
+            
+            <!-- Item -->
+            <% chavesNoticias.forEach(key => { %>
+                <div id="id-<%= listaNoticias[key].id %>" class="item_grid" data-noticia-id="<%= listaNoticias[key].id %>">
+                    <div class="form-box-top-left">
+                        <div class="title-box">
+                            <div class="title">
+                                <p><b><%= listaNoticias[key].title %></b></p>
+                            </div>
+                            <div class="subtitle">
+                                <p><%= listaNoticias[key].subtitle %></p>
+                            </div>
                         </div>
                     </div>
+                    <div class="box-image">
+                        <img src="/<%= listaNoticias[key].path %>" alt="">
+                    </div>
+                    <div class="form-box-top-right">
+                        <a class="btnHide" href="#" onclick="confirmDelete(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-trash fa-lg" ></i></a>
+                        <a class="btnHide" href="#" onclick="archiveNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-box-archive fa-lg"></i></a>
+                        <a class="btnHide" href="#" onclick="updateNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-pen fa-lg"></i></a>
+                        <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'left')"><i class="fa-solid fa-caret-left fa-lg"></i></a>
+                        <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'right')"><i class="fa-solid fa-caret-right fa-lg"></i></a>
+                    </div>
+                    <div class="form-box-text">
+                        <p><%= listaNoticias[key].text %> [...]</p>
+                    </div>
                 </div>
-                <div class="box-image">
-                    <img src="/<%= listaNoticias[key].path %>" alt="">
-                </div>
-                <div class="form-box-top-right">
-                    <a class="btnHide" href="#" onclick="confirmDelete(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-trash fa-lg" ></i></a>
-                    <a class="btnHide" href="#" onclick="archiveNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-box-archive fa-lg"></i></a>
-                    <a class="btnHide" href="#" onclick="updateNews(`<%= listaNoticias[key].id %>`)"><i class="fa-solid fa-pen fa-lg"></i></a>
-                    <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'left')"><i class="fa-solid fa-caret-left fa-lg"></i></a>
-                    <a class="btnMove" href="#" onclick="move(`id-<%= listaNoticias[key].id %>`, 'right')"><i class="fa-solid fa-caret-right fa-lg"></i></a>
-                </div>
-                <div class="form-box-text">
-                    <p><%= listaNoticias[key].text %> [...]</p>
-                </div>
-            </div>
-        <% }) %>
-        <!-- End Item -->
+            <% }) %>
+            <!-- End Item -->
 
+        </div>
     </div>
-
 </body>
 
 <script src="https://kit.fontawesome.com/51f2407d07.js" crossorigin="anonymous"></script>
@@ -247,15 +250,7 @@
         })
     }
 
-    function openNav() {
-        document.getElementById("menu_left").style.width = "200px";
-        document.getElementById("grid_overview").style.marginLeft = "215px";
-    }
-
-    function closeNav() {
-        document.getElementById("menu_left").style.width = "0";
-        document.getElementById("grid_overview").style.marginLeft= "20px";
-    }
+    
 </script>
 
 

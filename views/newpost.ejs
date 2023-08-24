@@ -17,84 +17,85 @@
     <%- include('include/navigation_admin')  %>
 
     <!-- Form New Post -->
-    <div id="whitebox">
-        <h2>New news post</h2>
-        <form name="formNewPost" action="/administration/newpost" method="post">
-            <div class="container">
-                <!-- Box Left -->
-                <div class="container-left">
-                    <!-- TITULO -->
-                    <label class="title-label" for="title">Title:</label>
-                    <input type="text" name="title" id="title" autocomplete="off" spellcheck="false" onkeyup="urlGenerator()">
+    <div id="structure">
+        <div id="whitebox">
+            <h2>New news post</h2>
+            <form name="formNewPost" action="/administration/newpost" method="post">
+                <div class="container">
+                    <!-- Box Left -->
+                    <div class="container-left">
+                        <!-- TITULO -->
+                        <label class="title-label" for="title">Title:</label>
+                        <input type="text" name="title" id="title" autocomplete="off" spellcheck="false" onkeyup="urlGenerator()">
 
-                    <!-- url path -->
-                    <p class="labelUrl">News URL:</p>
-                    <input name="urlpath" type="text" id="urlpath">
+                        <!-- url path -->
+                        <p class="labelUrl">News URL:</p>
+                        <input name="urlpath" type="text" id="urlpath">
 
-                    <!-- SUBTITULO -->
-                    <label for="subtitle">Subtitle:</label>
-                    <textarea name="subtitle" id="subtitle" cols="30" rows="10" spellcheck="false" autocomplete="off"></textarea>
+                        <!-- SUBTITULO -->
+                        <label for="subtitle">Subtitle:</label>
+                        <textarea name="subtitle" id="subtitle" cols="30" rows="10" spellcheck="false" autocomplete="off"></textarea>
 
-                    <div class="box-author-locality">
-                        <!-- AUTHOR -->
-                        <div>
-                            <label for="author">Author:</label>
-                            <select id="author" name="author">
-                                <option value="0">Select a author:</option>
-                                <% authorsList.forEach(author => { %>
-                                    <option value="<%= author.author_id %>"><%= author.name %></option>
-                                <% }); %>
-                            </select>
+                        <div class="box-author-locality">
+                            <!-- AUTHOR -->
+                            <div>
+                                <label for="author">Author:</label>
+                                <select id="author" name="author">
+                                    <option value="0">Select a author:</option>
+                                    <% authorsList.forEach(author => { %>
+                                        <option value="<%= author.author_id %>"><%= author.name %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <!-- LOCALIDADE -->
+                            <div>
+                                <label for="locality">Locality:</label>
+                                <input type="text" name="locality" id="locality" autocomplete="off" spellcheck="false" placeholder="Rio de Janeiro, Brasil">
+                            </div>
+                            
                         </div>
 
-                        <!-- LOCALIDADE -->
-                        <div>
-                            <label for="locality">Locality:</label>
-                            <input type="text" name="locality" id="locality" autocomplete="off" spellcheck="false" placeholder="Rio de Janeiro, Brasil">
+                        <!-- card -->
+                        <label>Card size on Homepage:</label>
+                        <div id="card-radio-container">
+                            
+                            <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
+                            <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
                         </div>
-                        
+
+                        <!-- PICTURE PATH -->
+                        <label for="picture">Picture:</label>
+                        <input type="text" name="picture" id="picture" autocomplete="off" spellcheck="false" placeholder="/public/images/img1.jpg" >
+
+                        <!-- PICTURE DESCRIPTION -->
+                        <label for="picture-description">Picture description:</label>
+                        <input type="text" name="picture-description" autocomplete="off" spellcheck="false" id="picture-description">
                     </div>
-
-                    <!-- card -->
-                    <label>Card size on Homepage:</label>
-                    <div id="card-radio-container">
-                        
-                        <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
-                        <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
+                    
+                    <!-- Box Right -->
+                    <div class="container-right">
+                        <!-- TEXT -->
+                        <label for="text">Text:</label>
+                        <textarea name="text" id="text" cols="30" rows="10" spellcheck="false" autocomplete="off"></textarea>
                     </div>
-
-                    <!-- PICTURE PATH -->
-                    <label for="picture">Picture:</label>
-                    <input type="text" name="picture" id="picture" autocomplete="off" spellcheck="false" placeholder="/public/images/img1.jpg" >
-
-                    <!-- PICTURE DESCRIPTION -->
-                    <label for="picture-description">Picture description:</label>
-                    <input type="text" name="picture-description" autocomplete="off" spellcheck="false" id="picture-description">
                 </div>
-                
-                <!-- Box Right -->
-                <div class="container-right">
-                    <!-- TEXT -->
-                    <label for="text">Text:</label>
-                    <textarea name="text" id="text" cols="30" rows="10" spellcheck="false" autocomplete="off"></textarea>
+
+                <!-- Alerta de erro de preenchimento -->
+                <% if (typeof erro != 'undefined') { %>
+                <div class="errAlert" id="errAlert">
+                    <p class="errAlertP">Preencher todos campos obrigatórios!</p>
                 </div>
-            </div>
+                <% } %>
 
-            <!-- Alerta de erro de preenchimento -->
-            <% if (typeof erro != 'undefined') { %>
-            <div class="errAlert" id="errAlert">
-                <p class="errAlertP">Preencher todos campos obrigatórios!</p>
-            </div>
-            <% } %>
-
-            <!-- BUTTONS -->
-            <div class="buttons">
-                <button name="reset" type="reset">Clear</button>
-                <button name="publish" type="submit">Publish</button>
-            </div>
-        </form>
+                <!-- BUTTONS -->
+                <div class="buttons">
+                    <button name="reset" type="reset">Clear</button>
+                    <button name="publish" type="submit">Publish</button>
+                </div>
+            </form>
+        </div>
     </div>
-
     <script>
 
         function urlGenerator(){
@@ -107,25 +108,5 @@
         }
 
     </script>
-
-
-
-
-
-<script>
-
-    function openNav() {
-        document.getElementById("menu_left").style.width = "200px";
-        document.getElementById("whitebox").style.marginLeft = "220px";
-    }
-
-    function closeNav() {
-        document.getElementById("menu_left").style.width = "0";
-        document.getElementById("whitebox").style.marginLeft= "20px";
-    }
-</script>
-
 </body>
-
-
 </html>

@@ -3,14 +3,19 @@ body {
     background-color: lightblue;
 }
 
+#structure {
+    margin: 40px 0 30px 200px;
+    transition: margin-left .5s;
+}
+
 #whitebox {
-    margin: 90px 20px 20px 220px;
+    margin: 90px 20px 20px 20px;
     padding: 10px 0 20px 0  ;
     background-color: white;
     max-width: 1000px;
     min-width: 900px;
     border-radius: 10px;
-    transition: margin-left .5s;
+    
 }
 
 label {
@@ -196,4 +201,64 @@ button {
     display: flex;
     flex-direction: row;
     gap: 10px;
+ }
+
+
+ @media (max-width: 600px){
+
+    #structure {
+        margin: 40px 0 30px 0;
+        width: 100%;
+    }
+
+    #whitebox {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 20px 0 20px 0;
+        width: 100%;
+        min-width: unset;
+        border-radius: 0;
+    }
+
+    #title {
+        width: calc(100% - 48px);
+        margin: 0 20px 0 20px;
+        min-width: unset;
+    }
+    
+    #subtitle {
+        min-width: unset;
+        width: calc(100% - 50px);
+        max-width: calc(100% - 50px);
+        margin: 0 20px 0 20px;
+    
+    }
+    
+    #author {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    #locality {
+        width: 100%;
+    }
+    
+     #text {
+        width: calc(100% - 10px);
+        max-width: calc(100% - 10px);
+        min-width: unset;
+     }
+    
+     .container {
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+     }
+    
+     .container-right {
+        width: 90%;
+        padding-right: 0;
+        margin: 0 20px 0 20px;
+     }
+
  }

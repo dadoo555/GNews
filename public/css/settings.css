@@ -4,9 +4,13 @@ body {
     background-color: rgb(228, 228, 228);
 }
 
+#structure {
+    margin: 40px 0 30px 200px;
+    transition: margin-left .5s;
+}
 
 #newUser {
-    margin: 50px 0 0 215px;
+    margin: 50px 0 0 15px;
     display: flex;
     flex-direction: column;
     width: fit-content; 
@@ -54,3 +58,11 @@ body {
 .btnRegister:active {
     background-color: rgb(63, 111, 128);
 }
+
+@media (max-width: 600px){
+
+    #structure {
+        margin: 40px 0 30px 0;
+    }
+
+ }

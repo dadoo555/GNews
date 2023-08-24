@@ -13,28 +13,26 @@
     <!-- Navbar -->
     <%- include('include/navbar'); %>
 
+<div class="structure">
     <!-- Content -->
     <div class="grid">
         <div class="title"><h1><b><%= dadosNoticia.title %></b></h1></div>
         <div class="subtitle"><h2><%= dadosNoticia.subtitle %></h2></div>
         <div class="info">
-            <p><b>Por <%= dadosNoticia.author_name %></b></p>
-            <p>- <%= dadosNoticia.locality %></p>
+            <p class="author"><b>Por <%= dadosNoticia.author_name %></b></p>
+            <p class="locality"><b>  - </b><%= dadosNoticia.locality %></p>
         </div>
         
     </div>
-    <hr style="margin-bottom: 30px; width: 60%;">
+    <hr>
 
 
     <div class="content">
         <div class="picture-card">
-            <!-- <div class="inner-picture-card"> -->
-                <img src="/<%= dadosNoticia.path %>" alt="">
-                <div class="container-text-image">
-                    <p class="text-image"><%= dadosNoticia.description %></p>
-                </div>
-                
-            <!-- </div> -->
+            <img src="/<%= dadosNoticia.path %>" alt="">
+            <div class="container-text-image">
+                <p class="text-image"><%= dadosNoticia.description %></p>
+            </div>
         </div>
         <div class="news-text" >
             <p><%= dadosNoticia.text %></p>
@@ -42,7 +40,7 @@
     </div>
 
 
-
+</div>
 
 
 

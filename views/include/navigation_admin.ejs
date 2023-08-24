@@ -11,7 +11,29 @@
         window.location = '/administration/settings';
     }
     
+    function openNav() {
+        let menu_left = document.getElementById("menu_left").style
+        let structure = document.getElementById("structure").style
 
+        if (window.matchMedia('(max-width: 600px)').matches){
+            menu_left.width = "200px";
+        } else {
+            menu_left.width = "200px";
+            structure.marginLeft = "200px";
+        }
+    }
+
+    function closeNav() {
+        let menu_left = document.getElementById("menu_left").style
+        let structure = document.getElementById("structure").style
+        
+        if (window.matchMedia('(max-width: 600px)').matches){
+            menu_left.width = "0";
+        } else {
+            menu_left.width = "0";
+            structure.marginLeft= "0";
+        }
+    }
 
 </script>
 

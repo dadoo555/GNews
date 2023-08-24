@@ -14,133 +14,134 @@
     <%- include('include/navigation_admin')  %>
     
     <!-- Form New Post -->
-    <div id="whitebox">
-        <h2>Edit news</h2>
-        <form name="formNewPost" action="/administration/edit" method="post" onsubmit="processaSubmissao(event)">
-            <div class="container">
-                <!-- Box Left -->
-                <div class="container-left">
+    <div id="structure">
+        <div id="whitebox">
+            <h2>Edit news</h2>
+            <form name="formNewPost" action="/administration/edit" method="post" onsubmit="processaSubmissao(event)">
+                <div class="container">
+                    <!-- Box Left -->
+                    <div class="container-left">
 
-                    <input name="id" type="hidden" value="<%= data[0].news_id %>">
+                        <input name="id" type="hidden" value="<%= data[0].news_id %>">
 
-                    <!-- TITULO -->
-                    <label class="title-label" for="title">Title:</label>
-                    <input  type="text" 
-                            name="title" 
-                            id="title" 
-                            autocomplete="off" 
-                            spellcheck="false" 
-                            onkeyup="urlGenerator()"
-                            value='<%= data[0].title %>'>
-
-                    <!-- url path -->
-                    <p class="labelUrl">News URL:</p>
-                    <input  
-                        name="urlpath" 
-                        type="text" 
-                        id="urlpath"
-                        value='<%= data[0].url_path %>'>
-
-                    <!-- SUBTITULO -->
-                    <label for="subtitle">Subtitle:</label>
-                    <textarea   
-                        name="subtitle" 
-                        id="subtitle" cols="30" rows="10" 
-                        spellcheck="false" 
-                        autocomplete="off"><%= data[0].subtitle %></textarea>
-
-                    <div class="box-author-locality">
-                        <!-- AUTHOR -->
-                        <div>
-                            <label for="author">Author:</label>
-                            <select id="author" name="author">
-                                <option value="0">Select a author:</option>
-                                <% authorsList.forEach(author => { %>
-                                    <% if (author.author_id == data[0].author_id){ %>
-                                        <option value="<%= author.author_id %>" selected><%= author.name %></option>
-                                    <% } else { %> 
-                                        <option value="<%= author.author_id %>"><%= author.name %></option>
-                                    <% } %>
-                                <% }); %>
-                            </select>
-                        </div>
-
-                        <!-- LOCALIDADE -->
-                        <div>
-                            <label for="locality">Locality:</label>
-                            <input 
-                                type="text" 
-                                name="locality" 
-                                id="locality" 
+                        <!-- TITULO -->
+                        <label class="title-label" for="title">Title:</label>
+                        <input  type="text" 
+                                name="title" 
+                                id="title" 
                                 autocomplete="off" 
                                 spellcheck="false" 
-                                placeholder="Rio de Janeiro, Brasil"
-                                value='<%= data[0].locality %>'>
+                                onkeyup="urlGenerator()"
+                                value='<%= data[0].title %>'>
+
+                        <!-- url path -->
+                        <p class="labelUrl">News URL:</p>
+                        <input  
+                            name="urlpath" 
+                            type="text" 
+                            id="urlpath"
+                            value='<%= data[0].url_path %>'>
+
+                        <!-- SUBTITULO -->
+                        <label for="subtitle">Subtitle:</label>
+                        <textarea   
+                            name="subtitle" 
+                            id="subtitle" cols="30" rows="10" 
+                            spellcheck="false" 
+                            autocomplete="off"><%= data[0].subtitle %></textarea>
+
+                        <div class="box-author-locality">
+                            <!-- AUTHOR -->
+                            <div>
+                                <label for="author">Author:</label>
+                                <select id="author" name="author">
+                                    <option value="0">Select a author:</option>
+                                    <% authorsList.forEach(author => { %>
+                                        <% if (author.author_id == data[0].author_id){ %>
+                                            <option value="<%= author.author_id %>" selected><%= author.name %></option>
+                                        <% } else { %> 
+                                            <option value="<%= author.author_id %>"><%= author.name %></option>
+                                        <% } %>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <!-- LOCALIDADE -->
+                            <div>
+                                <label for="locality">Locality:</label>
+                                <input 
+                                    type="text" 
+                                    name="locality" 
+                                    id="locality" 
+                                    autocomplete="off" 
+                                    spellcheck="false" 
+                                    placeholder="Rio de Janeiro, Brasil"
+                                    value='<%= data[0].locality %>'>
+                            </div>
+                            
                         </div>
-                        
+
+                        <!-- card -->
+                        <label>Card size on Homepage:</label>
+                        <div id="card-radio-container">
+                            <% if (data[0].card_size == 'big'){ %>
+                                <label><input class="radio" type="radio" name="cardsize" value="big" checked>Big Card</label>
+                                <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
+                            <% } else { %>
+                                <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
+                                <label><input class="radio" type="radio" name="cardsize" value="normal" checked>Normal Card</label>
+                            <% } %>
+                        </div>
+
+                        <!-- PICTURE PATH -->
+                        <label for="picture">Picture:</label>
+                        <input 
+                            type="text" 
+                            name="picture" 
+                            id="picture" 
+                            autocomplete="off" 
+                            spellcheck="false" 
+                            placeholder="/public/images/img1.jpg"
+                            value='<%= data[0].path %>'>
+
+                        <!-- PICTURE DESCRIPTION -->
+                        <label for="picture-description">Picture description:</label>
+                        <input 
+                            type="text" 
+                            name="picture-description" 
+                            autocomplete="off" 
+                            spellcheck="false" 
+                            id="picture-description"
+                            value='<%= data[0].description %>'>
                     </div>
-
-                    <!-- card -->
-                    <label>Card size on Homepage:</label>
-                    <div id="card-radio-container">
-                        <% if (data[0].card_size == 'big'){ %>
-                            <label><input class="radio" type="radio" name="cardsize" value="big" checked>Big Card</label>
-                            <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
-                        <% } else { %>
-                            <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
-                            <label><input class="radio" type="radio" name="cardsize" value="normal" checked>Normal Card</label>
-                        <% } %>
+                    
+                    <!-- Box Right -->
+                    <div class="container-right">
+                        <!-- TEXT -->
+                        <label for="text">Text:</label>
+                        <textarea 
+                            name="text" 
+                            id="text" cols="30" rows="10" 
+                            spellcheck="false" 
+                            autocomplete="off"><%= data[0].text %></textarea>
                     </div>
-
-                    <!-- PICTURE PATH -->
-                    <label for="picture">Picture:</label>
-                    <input 
-                        type="text" 
-                        name="picture" 
-                        id="picture" 
-                        autocomplete="off" 
-                        spellcheck="false" 
-                        placeholder="/public/images/img1.jpg"
-                        value='<%= data[0].path %>'>
-
-                    <!-- PICTURE DESCRIPTION -->
-                    <label for="picture-description">Picture description:</label>
-                    <input 
-                        type="text" 
-                        name="picture-description" 
-                        autocomplete="off" 
-                        spellcheck="false" 
-                        id="picture-description"
-                        value='<%= data[0].description %>'>
                 </div>
-                
-                <!-- Box Right -->
-                <div class="container-right">
-                    <!-- TEXT -->
-                    <label for="text">Text:</label>
-                    <textarea 
-                        name="text" 
-                        id="text" cols="30" rows="10" 
-                        spellcheck="false" 
-                        autocomplete="off"><%= data[0].text %></textarea>
+
+                <!-- Alerta de erro de preenchimento -->
+                <% if (erro) { %>
+                <div class="errAlert" id="errAlert">
+                    <p class="errAlertP">Preencher todos campos obrigatórios!</p>
                 </div>
-            </div>
+                <% } %>
 
-            <!-- Alerta de erro de preenchimento -->
-            <% if (erro) { %>
-            <div class="errAlert" id="errAlert">
-                <p class="errAlertP">Preencher todos campos obrigatórios!</p>
-            </div>
-            <% } %>
-
-            <!-- BUTTONS -->
-            <div class="buttons">
-                <button name="reset" type="reset">Restore</button>
-                <button name="publish" type="submit">Save</button>
-            </div>
-        </form>
+                <!-- BUTTONS -->
+                <div class="buttons">
+                    <button name="reset" type="reset">Restore</button>
+                    <button name="publish" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
-
 <script>
 
     function processaSubmissao(umEvento){
@@ -157,29 +158,7 @@
         }
     }
 
-    function openNav() {
-        document.getElementById("menu_left").style.width = "200px";
-        document.getElementById("whitebox").style.marginLeft = "220px";
-    }
-
-    function closeNav() {
-        document.getElementById("menu_left").style.width = "0";
-        document.getElementById("whitebox").style.marginLeft= "20px";
-    }
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>

@@ -3,8 +3,13 @@ body {
     background-color: lightblue;
 }
 
+#structure {
+    margin: 40px 0 30px 200px;
+    transition: margin-left .5s;
+}
+
 #whitebox {
-    margin: 90px 20px 20px 220px;
+    margin: 90px 20px 20px 20px;
     padding: 10px 0 20px 0  ;
     background-color: white;
     max-width: 1000px;
@@ -196,4 +201,13 @@ button {
     display: flex;
     flex-direction: row;
     gap: 10px;
+ }
+
+
+ @media (max-width: 600px){
+
+    #structure {
+        margin: 40px 0 30px 0;
+    }
+
  }

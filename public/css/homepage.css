@@ -16,7 +16,7 @@ body {
   display: grid;
   justify-content: center;    
   grid-template-columns: minmax(auto,600px) minmax(auto,600px);
-  grid-template-rows: repeat(4, 170px);
+  grid-auto-rows: 170px;
   gap: 15px;
   margin: 0 15px 0 15px;
   width: calc(100% - 100px);
@@ -123,12 +123,65 @@ body {
 }
 
 
-@media(max-width: 1200px) {
+/*  ............................. Smartphones ................................ */
+@media(max-width: 600px) {
 
   .containerNews {
-      grid-template-rows: repeat(10, 170px);
+      grid-auto-rows: min-content;
+      grid-template-columns: 100%; 
+      margin: 0 0 30px 0;
+      width: 100%;
+      gap: 5px;
+  }
+  
+  .bigCard {
+    margin: 10px 0 10px 0;
+  }
+
+  .bigCard .card-title-container {
+    border-radius: 0;
+  }
+  
+  .bigCard > .card-container > a > img {
+    width: 100%;
+    border-radius: 0;
+  }
+  
+  .bigCard .title {
+    font-size: 1.2rem;
+  }
+  
+  .bigCard .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .normalCard .card-title-container {
+    margin-bottom: 10px;
+  }
+  
+  .normalCard > .card-container > a > img {
+    display: none;
+  }
+  
+  .normalCard .title {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .normalCard .subtitle {
+    font-size: 0.7rem;
+  }
+
+}
+
+/* ...................................Tablets....................................... */
+@media((min-width: 600px) and (max-width: 1200px)) {
+
+  .containerNews {
+      grid-auto-rows: 170px;
       grid-template-columns: 100%; 
   }
 
   
 }
+

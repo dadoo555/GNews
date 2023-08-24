@@ -3,22 +3,29 @@ body {
     margin: 0;
 } 
 
+.structure {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 100px;
+}
+
 .grid {
     display: grid;
     margin-top: 70px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto auto 50px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    grid-template-rows: auto auto auto auto 10px;
+    font-family: "Lato", sans-serif;
     justify-items: center;
-    
-    margin-right: 20%;
-    margin-left: 20%;
+    width: calc(100% - 400px);
+    max-width: 900px;
+    margin: 0 0 20px 0;
 }
 
 .title {
     grid-column: span 2;
     font-size: 1.8rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     width: 100%;
     margin: 0 0 20px 0;
 }
@@ -27,13 +34,26 @@ body {
     font-size: 1rem;
     grid-column: span 2;
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
     color: #474747;
 }
 
 .info {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
     justify-self: left;
     color: #474747;
+}
+
+.locality {
+    margin: 0;
+    color: rgb(90, 90, 90);
+}
+
+.author {
+    margin: 0 0 3px 0;
+    color: rgb(83, 83, 83);
 }
 
 .content {
@@ -45,11 +65,11 @@ body {
 .picture-card {
     display: flex;
     flex-direction: column;
-    /* width: 50%; */
+    max-width: 45%;
 }
 
 .picture-card > img {
-    max-height: 500px;
+    width: 100%;
     border-radius: 10px 10px 0 0;
 }
 
@@ -64,17 +84,17 @@ body {
     text-align: left;
     color: white;
     margin: 10px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: "Lato", sans-serif;
     font-size: 0.7rem;
 }
 
 .news-text {
     width: 45%;
     margin-top: 40px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Lato", sans-serif;
     font-size: 1.1rem;
-    text-justify: auto;
-    text-align: justify;
+    /* text-justify: auto; */
+    text-align: auto;
     line-height: 1.5;
     margin-bottom: 200px;
 }
@@ -92,4 +112,88 @@ h2 {
 p {
     margin: 0;
     padding: 0;
+}
+
+hr {
+    margin-bottom: 30px; 
+    width: calc(100% - 400px); 
+    max-width: 900px;
+}
+
+/*  ............................. Smartphones ................................ */
+@media(max-width: 600px) {
+
+    .grid {
+        width: 90%;
+        margin: 10px 0 10px 0;
+    }
+
+    .structure {
+        margin-top: 60px;
+    }
+
+    .title {
+        font-size: 1rem;
+        margin: 0 0 10px 0;
+    }
+    
+    .subtitle {
+        font-size: 0.6rem;
+        margin: 0 0 5px 0;
+    }
+
+    .info {
+        font-size: 0.55rem;
+        gap: 5px;
+
+    }
+
+    .picture-card {
+        width: 100%;
+        max-width: none;
+    }
+
+    .picture-card > img {
+        border-radius: 0;
+    }
+    
+    .container-text-image {
+        border-radius: 0;
+    }
+
+    .news-text {
+        width: 90%;
+    }
+
+    hr {
+        display: none;
+    }
+
+    .news-text {
+        margin-bottom: 70px;
+    }
+}
+
+/* ...................................Tablets....................................... */
+@media((min-width: 600px) and (max-width: 1200px)) {
+
+    .grid {
+        margin: 0 0 10px 0;
+    }
+    
+    .title {
+        font-size: 1.6rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .picture-card {
+        max-width: 55%;
+    }
+
+    .news-text {
+        width: 55%;
+    }
 }

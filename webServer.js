@@ -62,7 +62,6 @@ app.get('/news/:newsID', (req,res) => {
                     JOIN authors
                         ON news.author_id = authors.author_id
                     WHERE url_path = '${req.params.newsID}'`
-    console.log(req.params.newsID)
     
     connection.query(sqlQuery, (err,result, fields) =>{ 
         if (err) throw err;
