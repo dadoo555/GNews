@@ -5,6 +5,17 @@ const dbSetup = require('../db/setup')
 const connection = dbSetup.connection
 const checkUser = require('../lib').checkUser
 
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: function(req, file, callback){
+        callback(null, __dirname + '/../public/images')
+    },
+    filename: function(req, file, callback){
+        callback(null, file.originalname)
+    }
+})
+const upload = multer({storage: storage})
+
 // ........................ Sessao ........................................
 
 const sessionHandler = require('../lib').sessionHandler
@@ -71,19 +82,19 @@ router.get('/newpost', checkUser,(req, res)=>{
     })
 })
 
-router.post('/newpost', urlEncodedParser, [
+router.post('/newpost', upload.single('file'), urlEncodedParser, [
         
-        check('data.title', 'title')
+        check('title', 'title')
             .isLength({min: 3}),
-        check('data.subtitle', 'subtitle')
+        check('subtitle', 'subtitle')
             .isLength({min: 3}),
-        check('data.locality', 'locality')
+        check('locality', 'locality')
             .isLength({min: 3}),
-        check('data.picture', 'picture')
+        check('picture', 'picture')
             .isLength({min: 3}),
-        check('data.picturedescription', 'picturedescription')
+        check('picturedescription', 'picturedescription')
             .isLength({min: 3}),
-        check('data.text').isLength({min: 10}),
+        check('text').isLength({min: 10}),
 
 
     ], (req, res)=>{
@@ -98,11 +109,11 @@ router.post('/newpost', urlEncodedParser, [
 
         //....DB...........................
         let currentDate = new Date().toJSON().slice(0, 10);
-        let {urlpath, cardsize, title, subtitle, text, locality, author, picture, picturedescription} = req.body.data
+        let {urlpath, cardsize, title, subtitle, text, locality, author, picture, picturedescription} = req.body
         const queryNews =   `INSERT INTO news (url_path, card_size, title, subtitle, text, date, locality, author_id)
                              VALUES ('${urlpath}','${cardsize}','${title}','${subtitle}','${text}','${currentDate}','${locality}','${author}')`
         const queryPictures =   `INSERT INTO pictures (description, path, news_id)
-                                 VALUES ('${picturedescription}','${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
+                                 VALUES ('${picturedescription}','images/${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
         const queryIndex = `INSERT INTO index_homepage (index_id, index_homepage.news_id)
                              VALUES ((SELECT MAX(index_id) + 1 FROM index_homepage i), 
                                     (SELECT news_id FROM news WHERE url_path='${urlpath}'));`

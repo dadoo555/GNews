@@ -61,12 +61,12 @@
                         <div id="card-radio-container">
                             
                             <label><input class="radio" type="radio" name="cardsize" value="big">Big Card</label>
-                            <label><input class="radio" type="radio" name="cardsize" value="normal">Normal Card</label>
+                            <label><input class="radio" type="radio" name="cardsize" checked value="normal">Normal Card</label>
                         </div>
 
                         <!-- PICTURE PATH -->
                         <label for="picture">Picture:</label>
-                        <input type="text" name="picture" id="picture" autocomplete="off" spellcheck="false" placeholder="/public/images/img1.jpg" >
+                        <input type="file" name="picture" id="picture" autocomplete="off" spellcheck="false" placeholder="/public/images/img1.jpg" >
 
                         <!-- PICTURE DESCRIPTION -->
                         <label for="picturedescription">Picture description:</label>
@@ -108,51 +108,36 @@
         function publishNews(ev){
             ev.preventDefault()
 
-            let cardsize = document.querySelector('input[name="cardsize"]:checked').value
-            let data = {
-                'title': document.getElementById("title").value,
-                'subtitle': document.getElementById("subtitle").value,
-                'urlpath': document.getElementById("urlpath").value,
-                'author': document.getElementById("author").value,
-                'locality': document.getElementById("locality").value,
-                'picture': document.getElementById("picture").value,
-                'picturedescription': document.getElementById("picturedescription").value,
-                'text': document.getElementById("text").value,
-                'cardsize': cardsize
-            }
+            const formData = new FormData()
+            formData.append("title", document.getElementById("title").value)
+            formData.append("subtitle", document.getElementById("subtitle").value)
+            formData.append("urlpath", document.getElementById("urlpath").value)
+            formData.append("author", document.getElementById("author").value)
+            formData.append("locality", document.getElementById("locality").value)
+            formData.append("picture", document.getElementById("picture").files[0].name)
+            formData.append("picturedescription", document.getElementById("picturedescription").value)
+            formData.append("text", document.getElementById("text").value)
+            formData.append("cardsize", document.querySelector('input[name="cardsize"]:checked').value)
+            formData.append("file", document.getElementById("picture").files[0])
 
-            // //Fetch DB
-            let requestPromise = fetch('/administration/newpost', {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+
+            console.log(...formData)
+
+            fetch('/administration/newpost',{
                 method: 'POST',
-                body: JSON.stringify({data: data})
+                body: formData,
             }).then((response)=>{
-                // console.log(response)
-                // if (response.status = 500) {
-                //     console.log('erro 500')
-                //     window.location.href = `/error?msg=${response.statusText}`
-                //     return
-                // }
-
-                if (response.ok){
+                    if (response.ok){
                     console.log('sem erro')
                     window.location.href = '/administration/overview' 
                     return
+                } else {
+                    document.getElementById("errAlert").style.display = 'flex'
                 }
             }).catch((err)=>{
-                // console.log('erro preenchimento inicio')
-                // if (err.status = 500) {
-                    // console.log('erro preenchimento 500')
-
-                //     window.location.href = `/error?msg=${err.statusText}`
-                //     return
-                // }
-                document.getElementById("errAlert").style.display = 'flex'
+                window.location.href = `/error?msg=${err}`
+                
             })
-
         }
             
        
