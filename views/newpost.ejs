@@ -130,14 +130,27 @@
                 method: 'POST',
                 body: JSON.stringify({data: data})
             }).then((response)=>{
+                // console.log(response)
+                // if (response.status = 500) {
+                //     console.log('erro 500')
+                //     window.location.href = `/error?msg=${response.statusText}`
+                //     return
+                // }
 
                 if (response.ok){
+                    console.log('sem erro')
                     window.location.href = '/administration/overview' 
                     return
                 }
             }).catch((err)=>{
-                document.getElementById("errAlert").style.display = 'flex'
+                // console.log('erro preenchimento inicio')
+                // if (err.status = 500) {
+                    // console.log('erro preenchimento 500')
 
+                //     window.location.href = `/error?msg=${err.statusText}`
+                //     return
+                // }
+                document.getElementById("errAlert").style.display = 'flex'
             })
 
         }

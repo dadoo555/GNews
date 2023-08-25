@@ -35,6 +35,10 @@
         }
     }
 
+    function logout(){
+        window.location.href = '/administration/logout'
+    }
+
 </script>
 
     
@@ -45,13 +49,14 @@
                 <a class="btnOpen" href="#" onclick="openNav()">
                     <div>&#9776;</div>
                 </a>
-                <div><p><b>Adminstration G News</b></p></div>
+                <div class="title-navbar"><p><b>Adminstration G News</b></p></div>
             </div>
             <div class="right">
                 <%if (user) {%>
                 <p>User: </p>
                 <p class="username"><%= user.name %></p>
                 <%}%>
+                <a class="btn-logout" href="#" onclick="logout()">Logout</a>
             </div>
         </div>
     </nav>

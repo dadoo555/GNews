@@ -29,18 +29,30 @@ router.get('/overview', checkUser, (req,res)=> {
                     JOIN pictures ON pictures.news_id = news.news_id
                     JOIN index_homepage ON index_homepage.news_id = news.news_id
                     ORDER BY index_homepage.index_id DESC` 
-                        
-    connection.query(sqlQuery, (err,result, fields) =>{ 
-        if (err) throw err;
-        noticias = result
-        let keys = Object.keys(noticias)
-        res.render('overview', {
-            chavesNoticias: keys, 
-            listaNoticias: noticias,
-            user: req.session.user
+    connection.promise().query(sqlQuery).then((result)=>{
+        [newsList] = result
+        let keys = Object.keys(newsList)
+            res.render('overview', {
+                chavesNoticias: keys, 
+                listaNoticias: newsList,
+                user: req.session.user
+            })
+        }).catch((err)=>{
+            res.status(500).redirect(`/error?msg=${err}`)
         })
-    })
+    })                    
+
+// ........................ Log out ........................................
+
+router.get('/logout', (req,res)=>{
+    if (req.session.user){
+        req.session.destroy()
+        res.redirect('/')
+    }
+
+    res.redirect('/administration/overview')
 })
+
 
 // ........................ New post ........................................
 
@@ -55,8 +67,6 @@ router.get('/newpost', checkUser,(req, res)=>{
             user: req.session.user
         })
     }).catch((err)=>{
-        // console.log(err)
-        // res.status(500)
         res.status(500).redirect(`/error?msg=${err}`)
     })
 })
@@ -104,7 +114,7 @@ router.post('/newpost', urlEncodedParser, [
         }).then(()=>{
             res.status(200).json({status: 'DB add news OK'})
         }).catch((err)=>{
-            res.status(500).redirect(`/error?msg=${err}`)
+            res.status(500).json({status: err})
         })
     })
 
@@ -171,9 +181,8 @@ router.get('/edit', checkUser, (req,res)=>{
             authorsList,
             erro: req.query.error
         })
-    }).catch((erro)=>{
-        res.status(500).json({status: 'error edit news'})
-        console.log(erro)
+    }).catch((err)=>{
+        res.status(500).redirect(`/error?msg=${err}`)
     })
 })
 
@@ -186,7 +195,7 @@ router.post('/edit', urlEncodedParser, [
         .isLength({min: 3}),
     check('picture', 'picture')
         .isLength({min: 3}),
-    check('picture-description', 'picture-description')
+    check('picturedescription', 'picturedescription')
         .isLength({min: 3}),
     check('text').isLength({min: 10}),
 

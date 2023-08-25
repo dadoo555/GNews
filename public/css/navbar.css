@@ -54,10 +54,11 @@ nav {
 }
 
 .btn-admin {
+  height: 15px;
   text-decoration: none;
   margin: 0;
-  padding: 2px 5px 2px 5px;
-  background-color: silver;
+  padding: 3px 7px 3px 7px;
+  background-color: rgb(216, 216, 216);
   color: black;
   border-radius: 4px;
   font-size: 0.8rem;
