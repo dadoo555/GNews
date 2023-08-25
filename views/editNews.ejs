@@ -17,7 +17,7 @@
     <div id="structure">
         <div id="whitebox">
             <h2>Edit news</h2>
-            <form name="formEditPost" action="/administration/edit" method="post" onsubmit="saveChanges(event)">
+            <form name="formEditPost" action="/administration/edit" method="post">
                 <div id="container" class="container">
                     <!-- Box Left -->
                     <div class="container-left">
@@ -105,13 +105,13 @@
                             value='<%= data[0].path %>'>
 
                         <!-- PICTURE DESCRIPTION -->
-                        <label for="picture-description">Picture description:</label>
+                        <label for="picturedescription">Picture description:</label>
                         <input 
                             type="text" 
-                            name="picture-description" 
+                            name="picturedescription" 
                             autocomplete="off" 
                             spellcheck="false" 
-                            id="picture-description"
+                            id="picturedescription"
                             value='<%= data[0].description %>'>
                     </div>
                     
@@ -145,7 +145,7 @@
 <script>
 
     function saveChanges(formEvent){
-        formEvent.preventDefault();
+        // formEvent.preventDefault();
 
         // let data = {
         //     'title': 

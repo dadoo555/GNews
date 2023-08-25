@@ -86,24 +86,13 @@
         //mandar o POST.
         let requestPromise = fetch(`/administration/overview/${id_newsToDelete}/delete`, {method: 'post'})
         requestPromise.then((response)=> {
-            
-            if(response.ok){
-                 // Visualmente
-                const cardToRemove = document.getElementById('id-' + id_newsToDelete);
-                const grid = document.getElementById('grid_overview');
-                grid.removeChild(cardToRemove);
-                // alert('Sucesso') 
-                document.getElementById("alertDelete").style.height = '0px'
-            }
-            else{
 
-                alert('nao foi possivel excluir')
-            }
+            const cardToRemove = document.getElementById('id-' + id_newsToDelete);
+            const grid = document.getElementById('grid_overview');
+            grid.removeChild(cardToRemove);
+            document.getElementById("alertDelete").style.height = '0px'
 
-            
-        })
-        requestPromise.catch((err) => {
-
+        }).catch((err) => {
             alert('Deu errado fetch remover')
         })
     } 
@@ -115,8 +104,7 @@
     function updateNews(id){
         window.location = `/administration/edit?idNews=${id}`
     }
-
-        
+  
     function layoutReorder(){
         
         if (deactivateButtons == false){
@@ -219,32 +207,22 @@
                 body: JSON.stringify({dados: database})
             })
             
-        requestPromise.then((response)=>{
-            if (response.ok){
-                //deu
-                return
+        requestPromise.then(()=>{
 
-            } else {
-                //nao deu
-
-            }
-        })
-        requestPromise.catch((err) => {
+            // Clean . . . . . . . . . . . . 
+            deactivateButtons = false
+            document.body.style.backgroundColor = 'lightblue';
+            document.getElementById('btnReorder').innerHTML = '<b>Reorder items</b>'
+            document.getElementById('btnReorder').style.color = 'black'
+            document.getElementById('btnSave').style.display = 'none'
+            document.querySelectorAll('.btnHide').forEach((e)=>{
+                e.style.display = 'inline'
+            })
+            document.querySelectorAll('.btnMove').forEach((e)=>{
+                e.style.display = 'none'
+            })
+        }).catch((err) => {
             console.log("Deu erro fetch ordem ", err)
-            alert('Deu errado fetch ordem')
-        })
-
-        // Clean . . . . . . . . . . . . 
-        deactivateButtons = false
-        document.body.style.backgroundColor = 'lightblue';
-        document.getElementById('btnReorder').innerHTML = '<b>Reorder items</b>'
-        document.getElementById('btnReorder').style.color = 'black'
-        document.getElementById('btnSave').style.display = 'none'
-        document.querySelectorAll('.btnHide').forEach((e)=>{
-            e.style.display = 'inline'
-        })
-        document.querySelectorAll('.btnMove').forEach((e)=>{
-            e.style.display = 'none'
         })
     }
 

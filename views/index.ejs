@@ -17,16 +17,16 @@
     <div class="structure">
         <div class="containerNews">
 
-            <% chavesNoticias.forEach(key => { %>               
+            <% keysNews.forEach(key => { %>               
                 <!-- Card -->
-                <div class="<%= listaNoticias[key].card_size %>Card" class="card">
+                <div class="<%= newsList[key].card_size %>Card" class="card">
                     <div class="card-container">
-                        <a href="/news/<%= listaNoticias[key].url_path %>">
-                            <img src="<%= listaNoticias[key].path %>" alt="">
+                        <a href="/news/<%= newsList[key].url_path %>">
+                            <img src="<%= newsList[key].path %>" alt="">
                         </a>
                         <div class="card-title-container">
-                            <a href="/news/<%= listaNoticias[key].url_path %>" class="title"><b><%= listaNoticias[key].title %></b></a>
-                            <a href="/news/<%= listaNoticias[key].url_path %>" class="subtitle"><b><%= listaNoticias[key].subtitle %></b></a>
+                            <a href="/news/<%= newsList[key].url_path %>" class="title"><b><%= newsList[key].title %></b></a>
+                            <a href="/news/<%= newsList[key].url_path %>" class="subtitle"><b><%= newsList[key].subtitle %></b></a>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= dadosNoticia.title %></title>
+    <title><%= newsData.title %></title>
     <link rel="stylesheet" href="/css/news.css" type="text/css">
     <link rel="stylesheet" href="/css/navbar.css" type="text/css">
     <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
@@ -16,11 +16,11 @@
 <div class="structure">
     <!-- Content -->
     <div class="grid">
-        <div class="title"><h1><b><%= dadosNoticia.title %></b></h1></div>
-        <div class="subtitle"><h2><%= dadosNoticia.subtitle %></h2></div>
+        <div class="title"><h1><b><%= newsData.title %></b></h1></div>
+        <div class="subtitle"><h2><%= newsData.subtitle %></h2></div>
         <div class="info">
-            <p class="author"><b>Por <%= dadosNoticia.author_name %></b></p>
-            <p class="locality"><b>  - </b><%= dadosNoticia.locality %></p>
+            <p class="author"><b>Por <%= newsData.author_name %></b></p>
+            <p class="locality"><b>  - </b><%= newsData.locality %></p>
         </div>
         
     </div>
@@ -29,13 +29,13 @@
 
     <div class="content">
         <div class="picture-card">
-            <img src="/<%= dadosNoticia.path %>" alt="">
+            <img src="/<%= newsData.path %>" alt="">
             <div class="container-text-image">
-                <p class="text-image"><%= dadosNoticia.description %></p>
+                <p class="text-image"><%= newsData.description %></p>
             </div>
         </div>
         <div class="news-text" >
-            <p><%= dadosNoticia.text %></p>
+            <p><%= newsData.text %></p>
         </div>
     </div>
 

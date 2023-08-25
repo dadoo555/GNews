@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
-const connection = require('./db/setup').connection
 
+const dbSetup = require('./db/setup')
+const connection = dbSetup.connection
 
 const bodyParser = require('body-parser')
 const { check, validationResult } = require('express-validator')
-// const { json } = require('body-parser')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set('view engine', 'ejs')
@@ -26,53 +26,41 @@ app.use(cookieParser())
 
 // ........................ Homepage ........................................
 
-let atuaisNoticias = []
 app.get('/', (req,res) => {
 
-    let sqlQuery = `SELECT url_path, card_size, title, subtitle, path 
-                    FROM news 
-                    JOIN pictures 
-                        ON pictures.news_id = news.news_id
-                    JOIN index_homepage
-                        ON index_homepage.news_id = news.news_id
-                    ORDER BY
-                        index_homepage.index_id DESC`
-    connection.query(sqlQuery, (err,result, fields) =>{ 
-        if (err) throw err;
-        atuaisNoticias = result
-        
-        let keys = Object.keys(atuaisNoticias)
+    let sqlQuery = `SELECT url_path, card_size, title, subtitle, path FROM news 
+                    JOIN pictures ON pictures.news_id = news.news_id
+                    JOIN index_homepage ON index_homepage.news_id = news.news_id
+                    ORDER BY index_homepage.index_id DESC`
+    connection.promise().query(sqlQuery).then((result)=>{
+        let [news] = result
+        let keys = Object.keys(news)
         res.render('index', {
-            chavesNoticias: keys, 
-            listaNoticias: atuaisNoticias,
+            keysNews: keys, 
+            newsList: news,
         })
+    }).catch((err)=>{
+        res.status(500).redirect(`/error?msg=${err}`)
     })
-
 })
 
 // ........................ Single News page ........................................
 
 app.get('/news/:newsID', (req,res) => {
-    
-    let noticiaPedida = []
+
     let sqlQuery = `SELECT url_path, title, subtitle, text, date, locality, description, path, name AS author_name 
                     FROM news 
-                    JOIN pictures 
-                        ON pictures.news_id = news.news_id
-                    JOIN authors
-                        ON news.author_id = authors.author_id
+                    JOIN pictures ON pictures.news_id = news.news_id
+                    JOIN authors ON news.author_id = authors.author_id
                     WHERE url_path = '${req.params.newsID}'`
-    
-    connection.query(sqlQuery, (err,result, fields) =>{ 
-        if (err) throw err;
-        noticiaPedida = result[0]
-
-        res.render('news', {
-            dadosNoticia: noticiaPedida
+    connection.promise().query(sqlQuery).then((result)=>{
+        let [singleNews] = result[0]
+        res.status(200).render('news', {
+            newsData: singleNews
         })
+    }).catch((err)=>{
+        res.status(500).redirect(`/error?msg=${err}`)
     })
-    
-
 })
 
 // ........................ Login ........................................
@@ -82,8 +70,6 @@ app.get('/login', (req,res) => {
         errName: req.query.error
     })
 })
-
-
 
 const usernameValidator = check('username', 'Username not valid')
         .exists()
@@ -99,47 +85,50 @@ app.post('/login', urlEncodedParser, validation, (req,res) => {
     // Validar preenchimento
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        // tem erro
-        res.redirect('/login?error=UserOrPassword')
+        res.redirect('/login?error=BlankFields')
         return
     }
 
     // Comparar com a db
-    let sqlQuery = `SELECT author_id, name, password FROM authors
-                     WHERE name = '${req.body.username}'`
+    let sqlQuery = `SELECT author_id, name, password FROM authors WHERE name = '${req.body.username}'`
 
-    connection.query(sqlQuery, (err,results, field) => {
-        if (err) throw err;
+    connection.promise().query(sqlQuery).then((results)=>{
+        const [data] = results
 
-        // Caso o usuario nao exista
-        if (typeof results[0] == 'undefined'){
-            console.log('Usuario inexistente')
+        // ...No user...
+        if (!data[0]){
             res.redirect('/login?error=Username')
             return
         }
 
-        //Verificar a senha 
-        if (results[0].password == req.body.password) {
-            
-            //USUARIO E SENHA CERTA
-            console.log('Senha correta: ' + results[0].password + ' html: ' + req.body.password)
+        const {author_id, name, password} = data[0]
+
+        //...Password check...
+        if (password == req.body.password) {
+            //User and password right
             req.session.user = {
-                id: results[0].author_id, 
-                name: results[0].name
+                id: author_id, 
+                name: name
             }
             res.redirect('/administration/overview') 
 
         } else {
-            //SENHA ERRADA
-            console.log('Senha errada: ' + results[0].password + ' HTML: ' + req.body.password )
-            const wrongPassword = true
+            //Wrong password
             res.redirect('/login?error=Password')
         }
+
+
+    }).catch((err)=>{
+        res.status(500).redirect(`/error?msg=${err}`)
     })
 })
 
 
-
+app.get('/error', (req,res)=>{
+    res.render('error', {
+        message: req.query.msg
+    })
+})
 
 // !!!!   IMPLEMENTAR  !!!! ............................................................
 app.get('/sports', (req,res) => {

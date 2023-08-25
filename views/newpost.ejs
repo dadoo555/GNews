@@ -82,11 +82,9 @@
                 </div>
 
                 <!-- Alerta de erro de preenchimento -->
-                <% if (erro) { %>
                 <div class="errAlert" id="errAlert">
                     <p class="errAlertP">Preencher todos campos obrigatórios!</p>
                 </div>
-                <% } %>
 
                 <!-- BUTTONS -->
                 <div class="buttons">
@@ -124,23 +122,22 @@
             }
 
             // //Fetch DB
-            let requestPromise = fetch('/administration/newpost', 
-                        {
+            let requestPromise = fetch('/administration/newpost', {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 method: 'POST',
                 body: JSON.stringify({data: data})
-            })
+            }).then((response)=>{
 
-            requestPromise.then((res)=>{
-                if (res.ok){
-                    // Ir pra pagina Overview  ?????
+                if (response.ok){
+                    window.location.href = '/administration/overview' 
                     return
                 }
             }).catch((err)=>{
-                //renderizear pagina ERRO ao fazer nao faco ideia ???
+                document.getElementById("errAlert").style.display = 'flex'
+
             })
 
         }
