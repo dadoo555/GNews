@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const dbSetup = require('../db/setup')
-const connection = dbSetup.connection
 const checkUser = require('../lib').checkUser
 
 const multer = require('multer')
@@ -16,234 +14,58 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
-// ........................ Sessao ........................................
-
-const sessionHandler = require('../lib').sessionHandler
-const cookieParser = require('../lib').cookieParser
+// .......... Session ........
+const {sessionHandler, cookieParser} = require('../lib')
 router.use(sessionHandler)
 router.use(cookieParser())
 
-// ........................ Validator Form ........................................
-
+// ....... Validator Form .....
 const bodyParser = require('body-parser')
 router.use(bodyParser.json())
-const { check, validationResult } = require('express-validator')
-const urlEncodedParser = bodyParser.urlencoded({ extended: false })
-router.use(express.urlencoded({ extended: true }));
+const {check, validationResult} = require('express-validator')
+const urlEncodedParser = bodyParser.urlencoded({extended: false })
+router.use(express.urlencoded({extended: true }))
 
 
-// ........................ OverView ........................................
+// ....... OverView ........
+const administration = require('../controllers/administration/overview')
+router.get('/overview', checkUser, administration.loadOverview )                    
 
-router.get('/overview', checkUser, (req,res)=> {
-    
-    let sqlQuery = `SELECT news.news_id AS id, url_path, title, subtitle, LEFT(text, 300) AS text, path FROM news 
-                    JOIN pictures ON pictures.news_id = news.news_id
-                    JOIN index_homepage ON index_homepage.news_id = news.news_id
-                    ORDER BY index_homepage.index_id DESC` 
-    connection.promise().query(sqlQuery).then((result)=>{
-        [newsList] = result
-        let keys = Object.keys(newsList)
-            res.render('overview', {
-                chavesNoticias: keys, 
-                listaNoticias: newsList,
-                user: req.session.user
-            })
-        }).catch((err)=>{
-            res.status(500).redirect(`/error?msg=${err}`)
-        })
-    })                    
+// ........ Log out ..........
+const login = require('../controllers/administration/login')
+router.get('/logout', login.logout)
 
-// ........................ Log out ........................................
-
-router.get('/logout', (req,res)=>{
-    if (req.session.user){
-        req.session.destroy()
-        res.redirect('/')
-    }
-
-    res.redirect('/administration/overview')
-})
-
-
-// ........................ New post ........................................
-
-router.get('/newpost', checkUser,(req, res)=>{
-    
-    const sqlQuery = "SELECT author_id, name FROM authors"
-    connection.promise().query(sqlQuery).then((result)=>{
-        const [dados] = result
-        res.render('newpost', {
-            authorsList: dados,
-            erro: req.query.error,
-            user: req.session.user
-        })
-    }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
-    })
-})
-
+// ........ New post ..........
+const news = require('../controllers/administration/news')
+router.get('/newpost', checkUser, news.createNews)
 router.post('/newpost', upload.single('file'), urlEncodedParser, [
-        
-        check('title', 'title')
-            .isLength({min: 3}),
-        check('subtitle', 'subtitle')
-            .isLength({min: 3}),
-        check('locality', 'locality')
-            .isLength({min: 3}),
-        check('picture', 'picture')
-            .isLength({min: 3}),
-        check('picturedescription', 'picturedescription')
-            .isLength({min: 3}),
-        check('text').isLength({min: 10}),
+        check('title', 'title').isLength({min: 3}),
+        check('subtitle', 'subtitle').isLength({min: 3}),
+        check('locality', 'locality').isLength({min: 3}),
+        check('picture', 'picture').isLength({min: 3}),
+        check('picturedescription', 'picturedescription').isLength({min: 3}),
+        check('text', 'text').isLength({min: 10}),
+    ], news.publishNews
+)
 
+// ....... Delete post .........
+router.post('/overview/:newsID/delete', news.deleteNews)
 
-    ], (req, res)=>{
-        
-        //.....Validation Error.............
-        const errors = validationResult(req)
- 
-        if(!errors.isEmpty()){ 
-            res.status(500).json({status: 'Error fields'})
-            return
-        }
-
-        //....DB...........................
-        let currentDate = new Date().toJSON().slice(0, 10);
-        let {urlpath, cardsize, title, subtitle, text, locality, author, picture, picturedescription} = req.body
-        const queryNews =   `INSERT INTO news (url_path, card_size, title, subtitle, text, date, locality, author_id)
-                             VALUES ('${urlpath}','${cardsize}','${title}','${subtitle}','${text}','${currentDate}','${locality}','${author}')`
-        const queryPictures =   `INSERT INTO pictures (description, path, news_id)
-                                 VALUES ('${picturedescription}','images/${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
-        const queryIndex = `INSERT INTO index_homepage (index_id, index_homepage.news_id)
-                             VALUES ((SELECT MAX(index_id) + 1 FROM index_homepage i), 
-                                    (SELECT news_id FROM news WHERE url_path='${urlpath}'));`
-
-        connection.promise().query(queryNews).then(()=>{
-            return connection.promise().query(queryPictures)
-        }).then(()=>{
-            return connection.promise().query(queryIndex)
-        }).then(()=>{
-            res.status(200).json({status: 'DB add news OK'})
-        }).catch((err)=>{
-            res.status(500).json({status: err})
-        })
-    })
-
-// ........................ Delete post ........................................
-
-router.post('/overview/:newsID/delete', (req,res)=>{
-    const idNewsToRemove = req.params.newsID
-    const queryPictures = `DELETE FROM pictures WHERE (pictures.news_id = '${idNewsToRemove}')`
-    const queryIndex = `DELETE FROM index_homepage WHERE (index_homepage.news_id = '${idNewsToRemove}')`
-    const queryNews = `DELETE FROM news WHERE (news.news_id='${idNewsToRemove}')`
-
-    connection.promise().query(queryPictures).then(()=>{
-        return connection.promise().query(queryIndex)
-    }).then(()=>{
-        return connection.promise().query(queryNews)
-    }).then(()=>{
-        res.status(200).json({status: 'Deleted'})
-    }).catch((err)=>{
-        res.status(500).json({status: err})
-    })
-})
-
-// ........................ Update Order ........................................
-
-router.post('/overview/saveOrder', (req,res)=>{
-    let database = req.body.dados
-    let promisesIndex = []
-
-    database.forEach((id, index) => {
-
-        const sqlQuery =`UPDATE index_homepage
-                         SET index_id = '${index + 1}'
-                         WHERE news_id = '${id}'`
-        const p = connection.promise().query(sqlQuery)  
-        promisesIndex.push(p)
-    })
-
-    Promise.all(promisesIndex).then(()=>{
-        res.status(200).json({status: 'Update order OK'})
-    }).catch(()=>{
-        res.status(500).json({status: 'Error order'})
-    })
-})
+// ....... Update Order ........
+router.post('/overview/saveOrder', administration.updateOrder)
     
-
-// ........................ Edit News ........................................
-
-router.get('/edit', checkUser, (req,res)=>{
-    
-    const queryNews =   `SELECT news.news_id, url_path, title, subtitle, card_size, text, date, locality, description, path, name AS author_name, authors.author_id 
-                        FROM news JOIN pictures ON pictures.news_id = news.news_id
-                        JOIN authors ON news.author_id = authors.author_id WHERE news.news_id = '${req.query.idNews}'`
-    const queryAuthors = "SELECT author_id, name FROM authors"
-    let newsData = []
-    
-    connection.promise().query(queryNews).then((results)=>{
-        [newsData] = results
-        return connection.promise().query(queryAuthors)
-    }).then((results)=>{
-        const [authorsList] = results
-        res.render('editNews', {
-            user: req.session.user,
-            data: newsData,
-            authorsList,
-            erro: req.query.error
-        })
-    }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
-    })
-})
-
+// ........ Edit News ..........
+router.get('/edit', checkUser, news.loadEditNews)
 router.post('/edit', urlEncodedParser, [
-    check('data.title', 'title').isLength({min: 3}),
-    check('data.subtitle', 'subtitle').isLength({min: 3}),
-    check('data.locality', 'locality').isLength({min: 3}),
-    // check('data.picture', 'picture').isLength({min: 3}),
-    check('data.picturedescription', 'picturedescription').isLength({min: 3}),
-    check('data.text').isLength({min: 10}),
+        check('data.title', 'title').isLength({min: 3}),
+        check('data.subtitle', 'subtitle').isLength({min: 3}),
+        check('data.locality', 'locality').isLength({min: 3}),
+        check('data.picturedescription', 'picturedescription').isLength({min: 3}),
+        check('data.text').isLength({min: 10}),
+    ], news.updateNews
+)
 
-], (req,res)=>{
-
-    // Caso tenha erro de preenchimento
-    const errors = validationResult(req)
-    if(!errors.isEmpty()){ 
-        res.status(500).json({status: 'Error fields'})
-        return
-    }
-
-    //DB
-    let {id, urlpath, cardsize, title, subtitle, text, locality, author, picturedescription} = req.body.data
-    const queryNews =  `UPDATE news
-                        SET url_path = '${urlpath}', 
-                            card_size = '${cardsize}',
-                            title = '${title}',
-                            subtitle = '${subtitle}',
-                            text = '${text}',
-                            locality = '${locality}',
-                            author_id = '${author}'
-                        WHERE news.news_id = '${id}'`
-    const queryPicture =   `UPDATE pictures
-                            SET description = '${picturedescription}'
-                            WHERE pictures.news_id = '${id}'`
-    
-                            connection.promise().query(queryNews).then(()=>{
-        return connection.promise().query(queryPicture)
-    }).then(()=>{
-        //OK
-        res.status(200).json({status: 'Updated'})
-    }).catch((err)=>{
-        res.status(500)
-    })
-
-
-})
-
-
-// ........................ Settings ........................................
-
+// ........ Settings ..........
 router.get('/settings', checkUser ,(req, res)=>{
     res.render('settings', {
         user: req.session.user

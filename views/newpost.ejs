@@ -120,9 +120,6 @@
             formData.append("cardsize", document.querySelector('input[name="cardsize"]:checked').value)
             formData.append("file", document.getElementById("picture").files[0])
 
-
-            console.log(...formData)
-
             fetch('/administration/newpost',{
                 method: 'POST',
                 body: formData,
