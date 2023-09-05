@@ -26,10 +26,27 @@
 
 .right {
     display: flex;
+
     flex-direction: row;
     font-size: 0.8rem;
     margin: 0 20px 0 0;
     align-items: center;
+}
+
+/* .right:hover .btn-logout{
+    display: block;
+} */
+
+.btn-logout {
+
+    display: block;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    padding: 3px 5px 3px 5px;
+    margin: 0 0 0 20px;
+    border-radius: 5px;
+
 }
 
 .username {
@@ -111,15 +128,7 @@ a {
     color: silver;
 }
 
-.btn-logout {
-    text-decoration: none;
-    color: black;
-    background-color: white;
-    padding: 3px 5px 3px 5px;
-    margin: 0 0 0 20px;
-    border-radius: 5px;
 
-}
 
 @media (max-width: 600px){
     #menu_left {

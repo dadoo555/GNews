@@ -29,7 +29,7 @@ const bodyParser = require('body-parser')
 router.use(bodyParser.json())
 const { check, validationResult } = require('express-validator')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
-
+router.use(express.urlencoded({ extended: true }));
 
 
 // ........................ OverView ........................................
@@ -198,30 +198,46 @@ router.get('/edit', checkUser, (req,res)=>{
 })
 
 router.post('/edit', urlEncodedParser, [
-    check('title', 'title')
-        .isLength({min: 3}),
-    check('subtitle', 'subtitle')
-        .isLength({min: 3}),
-    check('locality', 'locality')
-        .isLength({min: 3}),
-    check('picture', 'picture')
-        .isLength({min: 3}),
-    check('picturedescription', 'picturedescription')
-        .isLength({min: 3}),
-    check('text').isLength({min: 10}),
+    check('data.title', 'title').isLength({min: 3}),
+    check('data.subtitle', 'subtitle').isLength({min: 3}),
+    check('data.locality', 'locality').isLength({min: 3}),
+    // check('data.picture', 'picture').isLength({min: 3}),
+    check('data.picturedescription', 'picturedescription').isLength({min: 3}),
+    check('data.text').isLength({min: 10}),
 
-],(req,res)=>{
+], (req,res)=>{
 
     // Caso tenha erro de preenchimento
     const errors = validationResult(req)
     if(!errors.isEmpty()){ 
-        res.redirect(`/administration/edit?idNews=${req.body.id}&error=true`)
+        res.status(500).json({status: 'Error fields'})
         return
     }
 
     //DB
-    const sqlQuery = ``
-    res.send('deu')
+    let {id, urlpath, cardsize, title, subtitle, text, locality, author, picturedescription} = req.body.data
+    const queryNews =  `UPDATE news
+                        SET url_path = '${urlpath}', 
+                            card_size = '${cardsize}',
+                            title = '${title}',
+                            subtitle = '${subtitle}',
+                            text = '${text}',
+                            locality = '${locality}',
+                            author_id = '${author}'
+                        WHERE news.news_id = '${id}'`
+    const queryPicture =   `UPDATE pictures
+                            SET description = '${picturedescription}'
+                            WHERE pictures.news_id = '${id}'`
+    
+                            connection.promise().query(queryNews).then(()=>{
+        return connection.promise().query(queryPicture)
+    }).then(()=>{
+        //OK
+        res.status(200).json({status: 'Updated'})
+    }).catch((err)=>{
+        res.status(500)
+    })
+
 
 })
 

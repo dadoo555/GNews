@@ -17,12 +17,12 @@
     <div id="structure">
         <div id="whitebox">
             <h2>Edit news</h2>
-            <form name="formEditPost" action="/administration/edit" method="post">
+            <form id="form" name="formEditPost" action="/administration/edit" method="post" onsubmit="saveChanges(event)">
                 <div id="container" class="container">
                     <!-- Box Left -->
                     <div class="container-left">
 
-                        <input name="id" type="hidden" value="<%= data[0].news_id %>">
+                        <input id="id" name="id" type="hidden" value='<%= data[0].news_id %>'>
 
                         <!-- TITULO -->
                         <label class="title-label" for="title">Title:</label>
@@ -128,12 +128,10 @@
                 </div>
 
                 <!-- Alerta de erro de preenchimento -->
-                <% if (erro) { %>
                 <div class="errAlert" id="errAlert">
                     <p class="errAlertP">Preencher todos campos obrigatórios!</p>
                 </div>
-                <% } %>
-
+                
                 <!-- BUTTONS -->
                 <div class="buttons">
                     <button name="reset" type="reset">Restore</button>
@@ -145,23 +143,30 @@
 <script>
 
     function saveChanges(formEvent){
-        // formEvent.preventDefault();
+        formEvent.preventDefault();
 
-        // let data = {
-        //     'title': 
-        // }
-
-
-        // //Fetch DB
-        // let promise = fetch('/administration/edit', 
-        //     {
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json'
-        //         },
-        //         method: 'POST',
-        //         body: JSON.stringify({dados: database})
-        //     })
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        fetch('/administration/edit',{
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({data: data})
+        }).then((response)=>{
+            if (response.ok){
+                window.location.href = '/administration/overview' 
+                return
+            } else {
+                document.getElementById("errAlert").style.display = 'flex'
+                console.log('aviso')
+            }
+        }).catch((err)=>{
+            console.log(err)
+            // window.location.href = `/error?msg=${err}`
+        })
 
     }
 

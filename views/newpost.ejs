@@ -20,7 +20,7 @@
     <div id="structure">
         <div id="whitebox">
             <h2>New news post</h2>
-            <form name="formNewPost" action="/administration/newpost" method="post" onsubmit="publishNews(event)">
+            <form name="formNewPost" action="/administration/newpost" method="post"  onsubmit="publishNews(event)">
                 <div class="container">
                     <!-- Box Left -->
                     <div class="container-left">
@@ -127,8 +127,7 @@
                 method: 'POST',
                 body: formData,
             }).then((response)=>{
-                    if (response.ok){
-                    console.log('sem erro')
+                if (response.ok){
                     window.location.href = '/administration/overview' 
                     return
                 } else {
