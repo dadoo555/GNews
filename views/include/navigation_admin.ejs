@@ -1,4 +1,9 @@
 <script>
+
+    function gotoHome(){
+        window.location = '/'
+    }
+
     function gotoOverview(){
         window.location = '/administration/overview';
     }
@@ -49,8 +54,14 @@
                 <a class="btnOpen" href="#" onclick="openNav()">
                     <div>&#9776;</div>
                 </a>
-                <div class="title-navbar"><p><b>Adminstration G News</b></p></div>
+                <div class="title-navbar"><p><b>Adminstration</b></p></div>
             </div>
+            <a href="#" onclick="gotoHome()">
+                <div class="center">
+                    <img src="/images/favicon.ico" alt="">
+                    <p class="btn-homepage"><b>G News</b></p>
+                </div>
+            </a>
             <div class="right">
                 <%if (user) {%>
                 <p>User: </p>

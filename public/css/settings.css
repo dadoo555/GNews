@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(228, 228, 228);
+    background-color: rgb(240, 240, 240);
 }
 
 #structure {
@@ -9,16 +9,48 @@ body {
     transition: margin-left .5s;
 }
 
-#newUser {
-    margin: 50px 0 0 15px;
+#actions {
     display: flex;
+    flex-direction: row;
+    min-height: 40px;
+    gap: 15px;
+    padding-left: 15px;
+    margin-top: 55px;
+    flex-wrap: wrap;
+}
+
+#actions a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 8px;
+    background-color: rgb(205, 205, 205);
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    border-style: solid none solid none;
+    border-color: rgb(163, 163, 163);
+    border-top-width: 1px;
+    border-bottom-color: rgb(62, 62, 62);
+
+}
+
+hr {
+    margin: 20px 0;
+} 
+
+#newUser {
+    margin: 20px 0 0 15px;
+    display: none;
     flex-direction: column;
     width: fit-content; 
-    
     font-family: Arial, Helvetica, sans-serif;
     background-color: white;
     border-radius: 10px;
     padding: 20px;
+    animation-name: fadeIn ;
+    animation-duration: 0.5s;
 }
 
 #newUser label {
@@ -59,10 +91,18 @@ body {
     background-color: rgb(63, 111, 128);
 }
 
+
+
 @media (max-width: 600px){
 
     #structure {
         margin: 40px 0 30px 0;
     }
 
+ }
+
+
+ @keyframes fadeIn {
+    0% { opacity: 0; } 
+    100% { opacity: 1; }
  }

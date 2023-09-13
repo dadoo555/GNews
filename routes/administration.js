@@ -49,14 +49,14 @@ router.post('/newpost', upload.single('file'), urlEncodedParser, [
 )
 
 // ....... Delete post .........
-router.post('/overview/:newsID/delete', news.deleteNews)
+router.delete('/overview/:newsID', news.deleteNews)
 
 // ....... Update Order ........
 router.post('/overview/saveOrder', administration.updateOrder)
     
 // ........ Edit News ..........
 router.get('/edit', checkUser, news.loadEditNews)
-router.post('/edit', urlEncodedParser, [
+router.put('/overview/:id', urlEncodedParser, [
         check('data.title', 'title').isLength({min: 3}),
         check('data.subtitle', 'subtitle').isLength({min: 3}),
         check('data.locality', 'locality').isLength({min: 3}),
@@ -66,10 +66,12 @@ router.post('/edit', urlEncodedParser, [
 )
 
 // ........ Settings ..........
-router.get('/settings', checkUser ,(req, res)=>{
-    res.render('settings', {
-        user: req.session.user
-    })
-})
+const settings = require('../controllers/administration/settings')
+router.get('/settings', checkUser, settings.loadSettings)
+router.post('/settings/newuser', urlEncodedParser, [
+        check('data.username', 'username').isLength({min: 3}),
+        check('data.password', 'password').isLength({min: 3}),
+    ], settings.newUser)
+
 
 module.exports = router

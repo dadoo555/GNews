@@ -1,27 +1,32 @@
 .nav-container {
-    background-color: black;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
     position: fixed;
     margin: 0; 
-    height: 20px;
+    height: 40px;
+    width: 100%;
     z-index: 1000;
+    background-color: black;
   }
   
   .nav-items-left {
     display: flex;
+    grid-column: 2;
+    height: 40px;
     gap: 10px;
     align-items: center;
-    
+    justify-content: center;
   }
   
   .nav-items-right {
     display: flex;
-    align-items: right;
-    gap: 10px;
-    padding-right: 20px;
+    grid-column: 3;
+    height: 40px;
+    justify-content: right;
+    align-items: center;
+    margin: 0 15px 0 0;
   }
   
 .btn-navbar {
@@ -47,19 +52,51 @@ nav {
     font-family: "Lato", sans-serif;
   }
 
-.btn-home {
-  margin: 0 20px 0 0;
-  padding: 0;
+.btn-admin {
+  text-decoration: none;
+  margin: 0;
+  font-size: 0.8rem;
+  height: 40px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
 }
 
-.btn-admin {
-  height: 15px;
+.btn-admin:hover {
+  background-color: rgb(31, 31, 31);
+}
+
+.username-box {
   text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  color: white;
+  height: 40px;
+  width: 70px;
   margin: 0;
-  padding: 3px 7px 3px 7px;
-  background-color: rgb(216, 216, 216);
-  color: black;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.username-box > p {
+  margin: 0;
+}
+
+.username-box:hover {
+  background-color: rgb(42, 42, 42);
+}
+
+@media (max-width: 600px){
+  .username-box > p {
+    font-size: 0.7rem;
+  }
+
+  .nav-items-right {
+    margin-right: 5px;
+  }
+
 }

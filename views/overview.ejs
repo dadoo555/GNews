@@ -84,7 +84,7 @@
     function removeNews(){
 
         //mandar o POST.
-        let requestPromise = fetch(`/administration/overview/${id_newsToDelete}/delete`, {method: 'post'})
+        let requestPromise = fetch(`/administration/overview/${id_newsToDelete}`, {method: 'DELETE'})
         requestPromise.then((response)=> {
 
             const cardToRemove = document.getElementById('id-' + id_newsToDelete);

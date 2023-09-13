@@ -12,6 +12,7 @@ exports.loadHomepage = (req,res) => {
         res.render('index', {
             keysNews: keys, 
             newsList: news,
+            user: req.session.user
         })
     }).catch((err)=>{
         res.status(500).redirect(`/error?msg=${err}`)
@@ -28,7 +29,8 @@ exports.loadSingleNews = (req,res) => {
     connection.promise().query(sqlQuery).then((result)=>{
         let [singleNews] = result[0]
         res.status(200).render('news', {
-            newsData: singleNews
+            newsData: singleNews,
+            user: req.session.user
         })
     }).catch((err)=>{
         res.status(500).redirect(`/error?msg=${err}`)

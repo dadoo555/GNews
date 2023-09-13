@@ -41,8 +41,9 @@ body {
     display: grid;
     grid-template-columns: 2fr 1fr 50px;
     grid-template-rows: auto auto;
-    background: rgb(140,165,165);
-    background: linear-gradient(90deg, rgba(140,165,165,1) 70%, rgba(76,84,84,1) 100%);
+    background-color: rgb(188, 221, 227);
+    /* background: rgb(140,165,165); */
+    /* background: linear-gradient(90deg, rgba(140,165,165,1) 70%, rgba(76,84,84,1) 100%); */
     border-radius: 5px;
     padding: 10px;
     box-shadow: 0px 3px 20px 0px  rgba(0,0,0,0.4);
@@ -99,11 +100,11 @@ img {
 }
 
 .form-box-top-right .fa-solid {
-    color: rgb(129, 129, 129);
+    color: rgb(124, 174, 174);
 }
 
 .form-box-top-right .fa-solid:hover {
-    color: rgb(188, 188, 188);
+    color: rgb(74, 143, 143);
 }
 
 #alertDelete {

@@ -15,20 +15,98 @@
     <%- include('include/navigation_admin') %>
 
     <div id="structure">
-
+        <div id="actions">
+            <a id="btn-newuser" class="btn-action" href="#" onclick="newUser()"><p>➕ Register new user</p></a>
+            <a id="btn-edituser" class="btn-action" href="#" onclick="editUser()"><p>🪛 Edit/Remove users</p></a>
+        </div>
+        <hr>
         <div id="newUser">
-            <label for="">Username</label>
-            <input type="text">
-            <label for="">Password</label>
-            <input type="password" name="password">
-            <label for="">Confirm password</label>
-            <input type="password" name="passwordconfirm">
-            <div class="btnRegister"><a href="#" onclick="">Register user</a></div>
-            
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" spellcheck="false" autocomplete="off">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" spellcheck="false" autocomplete="off">
+            <label for="cpassword">Confirm password</label>
+            <input id="cpassword" name="cpassword" type="password" spellcheck="false" autocomplete="off" onkeyup="verifyPassword()">
+            <div class="btnRegister"><a href="#" onclick="btnRegisterUser()">Register user</a></div>    
         </div>
 
 
     </div>
 
 </body>
+
+<script>
+    function newUser(){
+        document.getElementById('newUser').style.display = 'flex'
+        deactivateAllBtn()
+        activeBtn('btn-newuser')
+    }
+    
+    function editUser(){
+
+        document.getElementById('newUser').style.display = 'none'
+        deactivateAllBtn()
+        activeBtn('btn-edituser')
+    }
+
+
+
+    function activeBtn(id){
+        document.getElementById(id).style.borderStyle = 'solid solid none solid'
+        document.getElementById(id).style.borderColor = 'rgb(62, 62, 62)'
+        document.getElementById(id).style.borderWidth = '2px'
+        document.getElementById(id).style.backgroundColor = 'rgb(227, 226, 226)'
+    }
+
+    function deactivateAllBtn(){
+        const buttons = document.getElementsByClassName('btn-action')
+        for (let i=0; i < buttons.length; i++){
+            buttons[i].style.borderStyle = 'solid none solid none'
+            buttons[i].style.borderColor = 'rgb(163, 163, 163)'
+            buttons[i].style.borderTopWidth = '1px'
+            buttons[i].style.borderBottomColor = 'rgb(62, 62, 62)'
+            buttons[i].style.backgroundColor = 'rgb(205, 205, 205)'
+        }
+    }
+
+    function verifyPassword(){
+        const password = document.getElementById('password')
+        const cpassword = document.getElementById('cpassword')
+
+        if (password.value != cpassword.value){
+
+        } else {
+           
+        }
+    }
+
+    function btnRegisterUser(){
+
+        const data = {
+            'username': document.getElementById('username'),
+            'password': document.getElementById('password'),
+        }
+
+        fetch('/administration/settings/newuser',{
+            headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            method: 'POST',
+            body: data
+        }).then((response)=>{
+            if (response.ok){
+                window.location.href = '/administration/settings' 
+            } else {
+                alert('fields')
+            }
+        }).catch((err)=>{
+            window.location.href = `/error?msg=${err}`
+        })
+    }
+
+
+</script>
+
 </html>
+

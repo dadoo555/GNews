@@ -100,7 +100,7 @@
             const value = document.getElementById("title").value;
             const url_path = document.getElementById("urlpath");
             
-            if (Object.keys(value).length < 60){ 
+            if (Object.keys(value).length < 160){ 
                 url_path.value = document.getElementById("title").value.replace(/ /g,'-').replace(/[^a-zA-Z0-9 -]/g, '');
             }
         }

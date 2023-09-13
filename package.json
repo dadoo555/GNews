@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon webServer.js"
+    "devStart": "nodemon webServer.js",
+    "debug": "nodemon --inspect webServer.js"
   },
   "author": "",
   "license": "ISC",

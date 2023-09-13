@@ -131,6 +131,8 @@ exports.updateNews = (req,res)=>{
             status: 'Updated'
         })
     }).catch((err)=>{
-        res.status(500)
+        res.status(500).json({
+            status: 'Failed'
+        })
     })
 }
