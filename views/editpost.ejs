@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>G News | Administration | Edit post</title>
-    <link rel="stylesheet" href="/css/navigation_admin.css" type="text/css">
-    <link rel="stylesheet" href="/css/editpost.css" type="text/css">
-    <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/news/public/css/navigation_admin.css" type="text/css">
+    <link rel="stylesheet" href="/news/public/css/editpost.css" type="text/css">
+    <link type="image/x-icon" rel="icon" href="/news/public/images/favicon.ico">
 </head>
 <body>
     
@@ -17,7 +17,7 @@
     <div id="structure">
         <div id="whitebox">
             <h2>Edit news</h2>
-            <form id="form" name="formEditPost" action="/administration/edit" method="post" onsubmit="saveChanges(event)">
+            <form id="form" name="formEditPost" action="/news/administration/edit" method="post" onsubmit="saveChanges(event)">
                 <div id="container" class="container">
                     <!-- Box Left -->
                     <div class="container-left">
@@ -148,7 +148,7 @@
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         
-        fetch(`/administration/overview/${data.id}`,{
+        fetch(`/news/administration/overview/${data.id}`,{
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -157,14 +157,14 @@
                 body: JSON.stringify({data: data})
         }).then((response)=>{
             if (response.ok){
-                window.location.href = '/administration/overview' 
+                window.location.href = '/news/administration/overview' 
                 return
             } else {
                 document.getElementById("errAlert").style.display = 'flex'
 
             }
         }).catch((err)=>{
-            window.location.href = `/error?msg=${err}`
+            window.location.href = `/news/error?msg=${err}`
         })
 
     }

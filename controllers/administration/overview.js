@@ -15,7 +15,7 @@ exports.loadOverview = (req,res)=> {
                 user: req.session.user
             })
     }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
+        res.status(500).redirect(`/news/error?msg=${err}`)
     })
 }
 

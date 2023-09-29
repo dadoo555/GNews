@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>G News | Administration | New post</title>
-    <link rel="stylesheet" href="/css/navigation_admin.css" type="text/css">
-    <link rel="stylesheet" href="/css/newpost.css" type="text/css">
-    <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/news/public/css/navigation_admin.css" type="text/css">
+    <link rel="stylesheet" href="/news/public/css/newpost.css" type="text/css">
+    <link type="image/x-icon" rel="icon" href="/news/public/images/favicon.ico">
 </head>
 <body>
     
@@ -20,7 +20,7 @@
     <div id="structure">
         <div id="whitebox">
             <h2>New news post</h2>
-            <form name="formNewPost" action="/administration/newpost" method="post"  onsubmit="publishNews(event)">
+            <form name="formNewPost" action="/news/administration/newpost" method="post"  onsubmit="publishNews(event)">
                 <div class="container">
                     <!-- Box Left -->
                     <div class="container-left">
@@ -120,18 +120,18 @@
             formData.append("cardsize", document.querySelector('input[name="cardsize"]:checked').value)
             formData.append("file", document.getElementById("picture").files[0])
 
-            fetch('/administration/newpost',{
+            fetch('/news/administration/newpost',{
                 method: 'POST',
                 body: formData,
             }).then((response)=>{
                 if (response.ok){
-                    window.location.href = '/administration/overview' 
+                    window.location.href = '/news/administration/overview' 
                     return
                 } else {
                     document.getElementById("errAlert").style.display = 'flex'
                 }
             }).catch((err)=>{
-                window.location.href = `/error?msg=${err}`
+                window.location.href = `/news/error?msg=${err}`
                 
             })
         }

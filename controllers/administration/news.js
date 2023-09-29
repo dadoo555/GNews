@@ -13,7 +13,7 @@ exports.createNews = (req, res)=>{
             user: req.session.user
         })
     }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
+        res.status(500).redirect(`/news/error?msg=${err}`)
     })
 }
 
@@ -34,7 +34,7 @@ exports.publishNews = (req, res)=>{
     const queryNews =   `INSERT INTO news (url_path, card_size, title, subtitle, text, date, locality, author_id)
                          VALUES ('${urlpath}','${cardsize}','${title}','${subtitle}','${text}','${currentDate}','${locality}','${author}')`
     const queryPictures =   `INSERT INTO pictures (description, path, news_id)
-                             VALUES ('${picturedescription}','images/${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
+                             VALUES ('${picturedescription}','${picture}',(SELECT news_id FROM news WHERE url_path='${urlpath}'));`
     const queryIndex = `INSERT INTO index_homepage (index_id, index_homepage.news_id)
                          VALUES ((SELECT MAX(index_id) + 1 FROM index_homepage i), 
                                 (SELECT news_id FROM news WHERE url_path='${urlpath}'));`
@@ -95,7 +95,7 @@ exports.loadEditNews = (req,res)=>{
             erro: req.query.error
         })
     }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
+        res.status(500).redirect(`/news/error?msg=${err}`)
     })
 }
 

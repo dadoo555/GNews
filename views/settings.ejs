@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>G News | Administration | Settings</title>
-    <link rel="stylesheet" href="/css/navigation_admin.css" type="text/css">
-    <link rel="stylesheet" href="/css/settings.css" type="text/css">
-    <script src="/js/navbarAdmin.js"></script>
-    <link type="image/x-icon" rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/news/public/css/navigation_admin.css" type="text/css">
+    <link rel="stylesheet" href="/news/public/css/settings.css" type="text/css">
+    <script src="/news/public/js/navbarAdmin.js"></script>
+    <link type="image/x-icon" rel="icon" href="/news/public/images/favicon.ico">
 </head>
 <body>
     
@@ -87,7 +87,7 @@
             'password': document.getElementById('password'),
         }
 
-        fetch('/administration/settings/newuser',{
+        fetch('/news/public/administration/settings/newuser',{
             headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -96,12 +96,12 @@
             body: data
         }).then((response)=>{
             if (response.ok){
-                window.location.href = '/administration/settings' 
+                window.location.href = '/news/public/administration/settings' 
             } else {
                 alert('fields')
             }
         }).catch((err)=>{
-            window.location.href = `/error?msg=${err}`
+            window.location.href = `/news/public/error?msg=${err}`
         })
     }
 

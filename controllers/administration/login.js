@@ -13,7 +13,7 @@ exports.tryLogin = (req,res) => {
     // Validar preenchimento
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        res.redirect('/login?error=BlankFields')
+        res.redirect('/news/login?error=BlankFields')
         return
     }
 
@@ -24,7 +24,7 @@ exports.tryLogin = (req,res) => {
 
         // ...No user...
         if (!data[0]){
-            res.redirect('/login?error=Username')
+            res.redirect('/news/login?error=Username')
             return
         }
 
@@ -36,21 +36,21 @@ exports.tryLogin = (req,res) => {
                 id: author_id, 
                 name: name
             }
-            res.redirect('/administration/overview') 
+            res.redirect('/news/administration/overview') 
         } else {
             //Wrong password
-            res.redirect('/login?error=Password')
+            res.redirect('/news/login?error=Password')
         }
     }).catch((err)=>{
-        res.status(500).redirect(`/error?msg=${err}`)
+        res.status(500).redirect(`/news/error?msg=${err}`)
     })
 }
 
 exports.logout = (req,res)=>{
     if (req.session.user){
         req.session.destroy()
-        res.redirect('/')
+        res.redirect('/news')
     }
 
-    res.redirect('/administration/overview')
+    res.redirect('/news/administration/overview')
 }
